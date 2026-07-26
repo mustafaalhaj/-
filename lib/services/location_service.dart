@@ -1,8 +1,13 @@
+import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 
 class LocationService {
   Future<Position?> determinePosition() async {
+    if (kIsWeb || defaultTargetPlatform == TargetPlatform.windows) {
+      return null;
+    }
+
     bool serviceEnabled;
     LocationPermission permission;
 
@@ -49,6 +54,9 @@ class LocationService {
     double latitude,
     double longitude,
   ) async {
+    if (kIsWeb || defaultTargetPlatform == TargetPlatform.windows) {
+      return null;
+    }
     try {
       List<Placemark> placemarks = await placemarkFromCoordinates(
         latitude,

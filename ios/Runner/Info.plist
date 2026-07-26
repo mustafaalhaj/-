@@ -53,5 +53,11 @@
 		</array>
 		<key>UIStatusBarHidden</key>
 		<false/>
+		<key>NSLocationWhenInUseUsageDescription</key>
+		<string>يحتاج تطبيق أنا مسلم إلى تحديد موقعك لحساب مواقيت الصلاة واتجاه القبلة بدقة.</string>
+		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>يحتاج تطبيق أنا مسلم إلى تحديد موقعك لحساب مواقيت الصلاة واتجاه القبلة بدقة.</string>
+		<key>NSLocationAlwaysUsageDescription</key>
+		<string>يحتاج تطبيق أنا مسلم إلى تحديد موقعك لحساب مواقيت الصلاة واتجاه القبلة بدقة.</string>
 	</dict>
 </plist>
