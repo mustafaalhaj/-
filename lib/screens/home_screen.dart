@@ -100,28 +100,41 @@ class _HomeScreenState extends State<HomeScreen> {
     if (layoutProvider.isLoading) {
       return [
         const SliverFillRemaining(
-          child: Center(child: CircularProgressIndicator()),
+          child: Center(
+            child: CircularProgressIndicator(color: Colors.amber),
+          ),
         ),
       ];
     }
 
-    for (var item in layoutProvider.activeWidgets) {
-      switch (item.type) {
-        case HomeWidgetType.header:
-          slivers.add(_buildHeaderSliver());
-          break;
-        case HomeWidgetType.nextPrayer:
-          slivers.add(_buildNextPrayerSliver());
-          break;
-        case HomeWidgetType.quickActions:
-          slivers.add(_buildQuickActionsSliver(primaryColor));
-          break;
-        case HomeWidgetType.dailyVerse:
-          slivers.add(_buildDailyVerseSliver());
-          break;
-        case HomeWidgetType.hijriDate:
-          slivers.add(_buildHijriDateSliver());
-          break;
+    final activeItems = layoutProvider.activeWidgets;
+
+    if (activeItems.isEmpty) {
+      // Fallback default layout in case activeWidgets is empty
+      slivers.add(_buildHeaderSliver());
+      slivers.add(_buildNextPrayerSliver());
+      slivers.add(_buildQuickActionsSliver(primaryColor));
+      slivers.add(_buildDailyVerseSliver());
+      slivers.add(_buildHijriDateSliver());
+    } else {
+      for (var item in activeItems) {
+        switch (item.type) {
+          case HomeWidgetType.header:
+            slivers.add(_buildHeaderSliver());
+            break;
+          case HomeWidgetType.nextPrayer:
+            slivers.add(_buildNextPrayerSliver());
+            break;
+          case HomeWidgetType.quickActions:
+            slivers.add(_buildQuickActionsSliver(primaryColor));
+            break;
+          case HomeWidgetType.dailyVerse:
+            slivers.add(_buildDailyVerseSliver());
+            break;
+          case HomeWidgetType.hijriDate:
+            slivers.add(_buildHijriDateSliver());
+            break;
+        }
       }
     }
 

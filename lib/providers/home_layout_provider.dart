@@ -48,7 +48,14 @@ class HomeLayoutProvider with ChangeNotifier {
   }
 
   List<HomeWidgetItem> get activeWidgets {
+    if (_layout.isEmpty) {
+      _resetToDefault();
+    }
     final active = _layout.where((item) => item.isVisible).toList();
+    if (active.isEmpty) {
+      _resetToDefault();
+      return List<HomeWidgetItem>.from(_layout);
+    }
     active.sort((a, b) => a.order.compareTo(b.order));
     return active;
   }
