@@ -17,14 +17,15 @@ class NotificationService {
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('@mipmap/launcher_icon');
 
-    final DarwinInitializationSettings initializationSettingsDarwin =
+    // ✅ iOS: طلب الصلاحيات صراحةً لضمان عمل الإشعارات عند إغلاق التطبيق
+    const DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
-          requestSoundPermission: false,
-          requestBadgePermission: false,
-          requestAlertPermission: false,
+          requestSoundPermission: true,
+          requestBadgePermission: true,
+          requestAlertPermission: true,
         );
 
-    final InitializationSettings initializationSettings =
+    const InitializationSettings initializationSettings =
         InitializationSettings(
           android: initializationSettingsAndroid,
           iOS: initializationSettingsDarwin,
@@ -32,7 +33,12 @@ class NotificationService {
 
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
-    // Create the channel explicitly for Android
+    // طلب الصلاحيات على iOS بشكل صريح فور التهيئة
+    if (!kIsWeb) {
+      await requestPermissions();
+    }
+
+    // إنشاء القنوات على Android
     final androidImplementation = flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin
@@ -41,7 +47,7 @@ class NotificationService {
     if (androidImplementation != null) {
       await androidImplementation.createNotificationChannel(
         const AndroidNotificationChannel(
-          'prayer_channel_v2', // Match the ID in AndroidManifest
+          'prayer_channel_v2',
           'Prayer Times',
           description: 'Notifications for prayer times with Adhan',
           importance: Importance.max,
@@ -62,17 +68,27 @@ class NotificationService {
   }
 
   Future<void> requestPermissions() async {
-    await flutterLocalNotificationsPlugin
+    // ✅ iOS: طلب صلاحيات الإشعارات الكاملة
+    final iosImplementation = flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
           IOSFlutterLocalNotificationsPlugin
-        >()
-        ?.requestPermissions(alert: true, badge: true, sound: true);
+        >();
+    if (iosImplementation != null) {
+      await iosImplementation.requestPermissions(
+        alert: true,
+        badge: true,
+        sound: true,
+      );
+    }
 
-    await flutterLocalNotificationsPlugin
+    // Android
+    final androidImplementation = flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin
-        >()
-        ?.requestNotificationsPermission();
+        >();
+    if (androidImplementation != null) {
+      await androidImplementation.requestNotificationsPermission();
+    }
   }
 
   Future<void> schedulePrayerNotification(
@@ -89,14 +105,22 @@ class NotificationService {
         tz.TZDateTime.from(scheduledTime, tz.local),
         const NotificationDetails(
           android: AndroidNotificationDetails(
-            'prayer_channel_v2', // Changed ID to force update
+            'prayer_channel_v2',
             'Prayer Times',
             channelDescription: 'Notifications for prayer times with Adhan',
             importance: Importance.max,
             priority: Priority.high,
             sound: RawResourceAndroidNotificationSound('adhan'),
           ),
-          iOS: DarwinNotificationDetails(sound: 'adhan.aiff'),
+          // ✅ iOS: استخدام الصوت الافتراضي (default) بدل adhan.aiff غير الموجود
+          // لضمان وصول الإشعار حتى عند إغلاق التطبيق كلياً
+          iOS: DarwinNotificationDetails(
+            sound: 'default',
+            presentAlert: true,
+            presentBadge: true,
+            presentSound: true,
+            interruptionLevel: InterruptionLevel.timeSensitive,
+          ),
         ),
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
         uiLocalNotificationDateInterpretation:

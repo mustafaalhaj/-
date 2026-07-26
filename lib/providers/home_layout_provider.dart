@@ -47,7 +47,7 @@ class HomeLayoutProvider with ChangeNotifier {
     HomeWidgetItem(type: HomeWidgetType.hijriDate, order: 3, isVisible: true),
     HomeWidgetItem(type: HomeWidgetType.dailyVerse, order: 4, isVisible: true),
   ];
-  bool _isLoading = false;
+  bool _isLoading = true; // ✅ ابدأ بـ true حتى يكتمل التحميل من SharedPreferences
 
   HomeLayoutProvider() {
     _loadLayout();
