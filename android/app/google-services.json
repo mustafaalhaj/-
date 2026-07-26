@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "111538818520",
+    "project_id": "ana-muslim-1ac8e",
+    "storage_bucket": "ana-muslim-1ac8e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111538818520:android:1629b87da1cf9e844c76ad",
+        "android_client_info": {
+          "package_name": "com.alhajmustafaana.anamuslim"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQru5XEYGSCoq_T0GTx0SmHSicNvZ4R4Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

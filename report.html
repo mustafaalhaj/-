@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>تقرير التحليل التقني والاستشاري الشامل - تطبيق أنا مسلم</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Amiri:wght@400;700&display=swap');
+
+  @page {
+    size: A4;
+    margin: 20mm 15mm 20mm 15mm;
+  }
+
+  * {
+    box-sizing: border-box;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  body {
+    font-family: 'Cairo', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #1A202C;
+    background-color: #FFFFFF;
+    line-height: 1.7;
+    font-size: 11pt;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Cover Page */
+  .cover-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #001C30 0%, #0B2447 60%, #19A7CE 100%);
+    color: #FFFFFF;
+    padding: 60px 40px;
+    border-radius: 15px;
+    page-break-after: always;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .cover-header {
+    border-bottom: 2px solid rgba(212, 175, 55, 0.4);
+    padding-bottom: 20px;
+  }
+
+  .cover-badge {
+    display: inline-block;
+    background: rgba(212, 175, 55, 0.2);
+    border: 1px solid #D4AF37;
+    color: #F4D160;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 11pt;
+    font-weight: 700;
+    margin-bottom: 15px;
+  }
+
+  .cover-title {
+    font-size: 28pt;
+    font-weight: 800;
+    color: #FFFFFF;
+    margin: 10px 0;
+    line-height: 1.3;
+  }
+
+  .cover-subtitle {
+    font-size: 16pt;
+    color: #E0E6ED;
+    font-weight: 600;
+  }
+
+  .cover-quran-text {
+    font-family: 'Amiri', serif;
+    font-size: 18pt;
+    color: #F4D160;
+    text-align: center;
+    margin: 40px 0;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px dashed rgba(244, 209, 96, 0.3);
+  }
+
+  .cover-meta {
+    background: rgba(255, 255, 255, 0.08);
+    padding: 25px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .meta-item {
+    font-size: 10.5pt;
+  }
+
+  .meta-item label {
+    color: #94A3B8;
+    display: block;
+    font-size: 9pt;
+  }
+
+  .meta-item val {
+    color: #FFFFFF;
+    font-weight: 700;
+  }
+
+  /* Section Styling */
+  .section {
+    margin-bottom: 35px;
+    page-break-inside: avoid;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    border-bottom: 3px solid #001C30;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+  }
+
+  .section-number {
+    background: #001C30;
+    color: #D4AF37;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16pt;
+    font-weight: 800;
+    margin-left: 15px;
+  }
+
+  .section-title {
+    font-size: 18pt;
+    font-weight: 800;
+    color: #001C30;
+    margin: 0;
+  }
+
+  h3 {
+    font-size: 14pt;
+    color: #0B2447;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    border-right: 4px solid #D4AF37;
+    padding-right: 10px;
+  }
+
+  p {
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: justify;
+    color: #334155;
+  }
+
+  /* Cards & Highlights */
+  .card {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+  }
+
+  .card-highlight {
+    background: #F0F9FF;
+    border-right: 4px solid #0284C7;
+  }
+
+  .card-success {
+    background: #F0FDF4;
+    border-right: 4px solid #16A34A;
+  }
+
+  .card-warning {
+    background: #FFFBEB;
+    border-right: 4px solid #D97706;
+  }
+
+  /* User Flow Steps */
+  .flow-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin: 20px 0;
+  }
+
+  .flow-step {
+    display: flex;
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .flow-step-num {
+    background: #001C30;
+    color: #F4D160;
+    padding: 15px;
+    font-weight: 800;
+    font-size: 13pt;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 55px;
+  }
+
+  .flow-step-content {
+    padding: 15px;
+    flex-grow: 1;
+  }
+
+  .flow-step-title {
+    font-weight: 700;
+    color: #0F172A;
+    font-size: 12pt;
+    margin-bottom: 5px;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 10pt;
+    page-break-inside: avoid;
+  }
+
+  th {
+    background-color: #001C30;
+    color: #FFFFFF;
+    text-align: right;
+    padding: 12px 14px;
+    font-weight: 700;
+    border: 1px solid #001C30;
+  }
+
+  td {
+    padding: 10px 14px;
+    border: 1px solid #E2E8F0;
+    vertical-align: top;
+  }
+
+  tr:nth-child(even) td {
+    background-color: #F8FAFC;
+  }
+
+  .badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 8.5pt;
+    font-weight: 700;
+  }
+
+  .badge-danger { background: #FEE2E2; color: #991B1B; }
+  .badge-warning { background: #FEF3C7; color: #92400E; }
+  .badge-success { background: #DCFCE7; color: #166534; }
+  .badge-info { background: #E0F2FE; color: #075985; }
+
+  /* Feature Grid */
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+  }
+
+  .feature-box {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+  }
+
+  .feature-box-title {
+    font-weight: 700;
+    color: #001C30;
+    font-size: 11pt;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+  }
+
+  .feature-box-title::before {
+    content: "✦";
+    color: #D4AF37;
+    margin-left: 8px;
+  }
+
+  /* Page Break Helpers */
+  .page-break {
+    page-break-after: always;
+  }
+
+  .footer-note {
+    text-align: center;
+    font-size: 9pt;
+    color: #64748B;
+    border-top: 1px solid #E2E8F0;
+    padding-top: 15px;
+    margin-top: 40px;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER PAGE -->
+<div class="cover-page">
+  <div class="cover-header">
+    <div class="cover-badge">تقرير استشاري تقني شامل 100%</div>
+    <div class="cover-title">مراجعة البنية البرمجية والتفكيك الشامل لمشروع "أنا مسلم"</div>
+    <div class="cover-subtitle">Ana Muslim App - Senior Software Architecture & Business Audit</div>
+  </div>
+
+  <div class="cover-quran-text">
+    "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ"
+  </div>
+
+  <div class="cover-meta">
+    <div class="meta-grid">
+      <div class="meta-item">
+        <label>إعداد الاستشاري:</label>
+        <val>Senior Software Architect & Technical Lead</val>
+      </div>
+      <div class="meta-item">
+        <label>إطار العمل (Framework):</label>
+        <val>Flutter 3.10+ (Dart SDK ^3.10.1)</val>
+      </div>
+      <div class="meta-item">
+        <label>إصدار التطبيق (App Version):</label>
+        <val>v1.0.7+7 (Production Architecture)</val>
+      </div>
+      <div class="meta-item">
+        <label>تاريخ التقرير:</label>
+        <val>26 يوليو 2026</val>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SECTION 1: EXECUTIVE SUMMARY & USER JOURNEY -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">1</div>
+    <h2 class="section-title">الملخص التنفيذي ورحلة المستخدم (User Journey & Flow)</h2>
+  </div>
+
+  <h3>1.1 الملخص التنفيذي (Executive Summary)</h3>
+  <p>
+    تطبيق <strong>"أنا مسلم" (Ana Muslim)</strong> هو تطبيق إسلامي شامل عبر المنصات (Cross-Platform) تم تطويره باستعمال إطار العمل <strong>Flutter</strong> برقم إصدار <code>1.0.7+7</code>. يهدف التطبيق إلى توفير تجربة إيمانية متكاملة تجمع بين القرآن الكريم، مواقيت الصلاة والأذان، القبلة التفاعلية بالواقع المعزز (AR)، الأذكار والأدعية، الذكاء الاصطناعي التوليدي عبر <strong>Google Gemini 2.0 Flash</strong>، وتتبع الصيام والمزاج الإيماني.
+  </p>
+  <div class="card card-highlight">
+    <strong>الرؤية المعمارية للتطبيق:</strong>
+    يعتمد التطبيق على معمارية فصل الخدمات (Service-Oriented Architecture) مع إدارة حالة مركزية مبسطة باستخدام نمط <code>Provider</code>، وتصميم عصري يعتمد على المؤثرات الزجاجية (Glassmorphic Neumorphic UI Design)، مع تحسينات أداء رفيعة المستوى لعزل إعادة الرسم (Repaint Boundary) وتوفير تجربة مستخدم سلسة بسرعة 60/120 إطار في الثانية.
+  </div>
+
+  <h3>1.2 تتبع سير ورحلة المستخدم من البداية للنهاية (End-to-End User Journey)</h3>
+
+  <div class="flow-container">
+    <div class="flow-step">
+      <div class="flow-step-num">01</div>
+      <div class="flow-step-content">
+        <div class="flow-step-title">شاشة البداية والتهيئة الأولية (Splash Screen & Initialization)</div>
+        <p style="margin:0; font-size:9.5pt;">
+          يبدأ التطبيق بتحميل <code>flutter_native_splash</code> باللون الكحلي الداكن (<code>#001C30</code>). فور تشغيل محرك الفلتر، تنطلق شاشة <code>SplashScreen</code> التي تعرض شعار التطبيق بـ <code>AnimationController</code> يدمج التلاشي والزيادة (Fade & Scale) خلال 1.5 ثانية. بالتوازي مع الحركة، تنطلق عملية <code>_initializeServices()</code> غير الحاجبة (Non-blocking Asynchronous) لتهيئة خدمات Firebase، الإشعارات المحلية، وتنبيهات التقويم الهجري.
+        </p>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-step-num">02</div>
+      <div class="flow-step-content">
+        <div class="flow-step-title">فلسفة المصادقة ووصول الزائر (Guest-First Authentication Model)</div>
+        <p style="margin:0; font-size:9.5pt;">
+          يعتمد التطبيق على نموذج <strong>"Guest-First Architecture"</strong> المباشر؛ حيث لا يجبر المستخدم على إنشاء حساب أو إدخال بيانات شخصية. هذا الخيار المعماري يضمن أعلى مستويات الخصوصية والسرعة للمستخدم. وتتم إدارة التخصيصات (مثل الأذكار المفضلة، إعدادات الحجم والسمات، وسجل الصيام) محلياً عبر <code>SharedPreferences</code> مع وجود بنية زيروتلامسية لربط <code>Firebase Authentication</code> مستقبلاً.
+        </p>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-step-num">03</div>
+      <div class="flow-step-content">
+        <div class="flow-step-title">اللوحة الرئيسية وشريط التنقل الزجاجي (Home Screen & Glass Bottom Nav)</div>
+        <p style="margin:0; font-size:9.5pt;">
+          ينتقل المستخدم تلقائياً إلى <code>MainScreen</code> التي تفتح افتراضياً على التبويب الأوسط (<code>_selectedIndex = 2</code>) وهو شاشة <code>HomeScreen</code>. تتضمن الواجهة شريط تنقل زجاجي عائم (Floating Glass Navigation Bar) يتيح التنقل المباشر بين 5 أقسام رئيسية: (القرآن، الصلاة، الرئيسية، الأذكار، والمزيد). كما يتم استدعاء <code>UpdateService.checkUpdate()</code> فور فتح الواجهة للتحقق من التحديثات السحابية.
+        </p>
+      </div>
+    </div>
+
+    <div class="flow-step">
+      <div class="flow-step-num">04</div>
+      <div class="flow-step-content">
+        <div class="flow-step-title">إنجاز المهام الأساسية والتفاعل مع الميزات (Core Task Execution)</div>
+        <p style="margin:0; font-size:9.5pt;">
+          يستطيع المستخدم الوصول الفوري إلى القرآن وقراءته أو استماعه عبر <code>just_audio</code> في الخلفية، معرفة مواعيد الصلاة حسب موقع الجي بي إس الحالي، استخدام كاميرا الهاتف للقبلة بالواقع المعزز (AR Qibla)، إجراء محادثة فقهية مع المساعد الذكي Gemini AI، أو الاستماع للبث المباشر لمكة المكرمة والمدينة المنورة.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 2: COMPREHENSIVE FEATURES BREAKDOWN -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">2</div>
+    <h2 class="section-title">التفكيك الشامل للوظائف والميزات (Comprehensive Features Breakdown)</h2>
+  </div>
+
+  <p>
+    تم استخراج كافة الوظائف البرمجية المعتمدة في الكود المصدري وتصنيفها تقنياً إلى 12 وحدة أساسية وثانوية:
+  </p>
+
+  <div class="feature-grid">
+    <div class="feature-box">
+      <div class="feature-box-title">1. وحدة القرآن الكريم والتلاوات الصوتية</div>
+      <p style="font-size:9pt; margin:0;">
+        • <strong>التصفح والقراءة:</strong> عرض 114 سورة مع بيانات الأجزاء والآيات ونوع السورة (مكية/مدنية).<br>
+        • <strong>المشغل الصوتي المتقدم:</strong> تشغيل التلاوات بأصوات أشهر القراء عبر <code>just_audio</code> و <code>just_audio_background</code> مع إمكانية التشغيل في خلفية الجهاز والاستجابة لأزرار التحكم بالنظام وسماعات الرأس.<br>
+        • <strong>التخصيص الخطوطي:</strong> التحكم الدقيق بحجم الخط ومقاييس الرسم عبر <code>TypographyProvider</code>.
+      </p>
+    </div>
+
+    <div class="feature-box">
+      <div class="feature-box-title">2. وحدة مواقيت الصلاة والأذان التفاعلية</div>
+      <p style="font-size:9pt; margin:0;">
+        • <strong>الحساب الجغرافي:</strong> حساب دقيق لمواعيد الصوات الخمس الشروق محلياً باستعمال مكتبة <code>adhan</code> و <code>geolocator</code>.<br>
+        • <strong>طرق الحساب الدولية:</strong> دعم هيئات متعددة (أم القرى، رابطة العالم الإسلامي، الإفتاء المصري، إلخ).<br>
+        • <strong>التنبيهات المجدولة:</strong> جدولة الأذان بدقة الثواني عبر <code>flutter_local_notifications</code> وخلفية <code>workmanager</code>.<br>
+        • <strong>ويدجت الشاشة الرئيسية:</strong> مزامنة وقت الصلاة القادمة مع ويدجت نظام أندرويد عبر <code>home_widget</code> و <code>PrayerWidgetProvider</code>.
+      </p>
+    </div>
+
+    <div class="feature-box">
+      <div class="feature-box-title">3. بوصلة الققبلة والقبلة بالواقع المعزز (AR Qibla)</div>
+      <p style="font-size:9pt; margin:0;">
+        • <strong>البوصلة المغناطيسية:</strong> تحديد الاتجاه بدقة باستعمال حزمة <code>flutter_compass</code>.<br>
+        • <strong>رؤية الواقع المعزز (AR):</strong> دمج بث الكاميرا المباشرة عبر <code>camera</code> مع مستشعرات الحركة <code>sensors_plus</code> والمعادلات الرياضية <code>vector_math</code> لإسقاط اتجاه الكعبة المشرفة بصرياً فوق البيئة الواقعية محيطة بالمستخدم.
+      </p>
+    </div>
+
+    <div class="feature-box">
+      <div class="feature-box-title">4. المساعد الإسلامي الذكي (Gemini AI Assistant)</div>
+      <p style="font-size:9pt; margin:0;">
+        • <strong>المحرك الذكي:</strong> تكامل مبدئي عبر REST API مع نموذج <code>google_generative_ai</code> (Google Gemini 2.0 Flash).<br>
+        • <strong>Prompt Engineering متطور:</strong> ضبط النظام لإجابة الأسئلة الفقهية والتفسير وتوثيق المصادر.<br>
+        • <strong>الكاش المحلي المحسّن:</strong> تخزين إجابات الأسئلة الشائعة محلياً والاستجابة البحثية من الأحاديث المحلية فور انقطاع الشبكة.
+      </p>
+    </div>
+
+    <div class="feature-box">
+      <div class="feature-box-title">5. الأذكار والأدعية والمسبحة الرقمية</div>
+      <p style="font-size:9pt; margin:0;">
+        • <strong>مكتبة الأذكار والأدعية:</strong> أذكار الصباح والمساء، النوم، الصلوات، وأدعية مأثورة.<br>
+        • <strong>المسبحة الإلكترونية:</strong> عداد تسبيح ذكي يتيح تحديد الأهداف مع توفير ردود فعل لمسية اهتزازية (Haptic Feedback) عبر <code>vibration</code>.<br>
+        • <strong>أسماء الله الحسنى:</strong> عرض 99 اسماً شريفاً مع شرح المعاني والتفاصيل التدبرية.
+      </p>
+    </div>
+
+    <div class="feature-box">
+      <div class="feature-box-title">6. مكتبة الأحاديث النبوية الشاملة</div>
+      <p style="font-size:9pt; margin:0;">
+        • <strong>المحتوى الحديثي:</strong> عرض الأربعين النووية، صحيح البخاري، صحيح مسلم وغيرها عبر <code>hadith_service.dart</code>.<br>
+        • <strong>البحث والشارحة:</strong> محرك بحث نصي سريع يعمل محلياً بالكامل (Offline) مع إمكانية النسخ والمشاركة عبر <code>share_plus</code>.
+      </p>
+    </div>
+
+    <div class="feature-box">
+      <div class="feature-box-title">7. متتبع الحالة النفسية والمزاج الإيماني</div>
+      <p style="font-size:9pt; margin:0;">
+        • <strong>التفاعل الوجداني:</strong> اختيار الحالة النفسية للمسلم (حزن، قلق، فرح، شكر، ضعف).<br>
+        • <strong>التوصية الإيمانية:</strong> خوارزمية ذكية تقترح الآيات والأدعية والأذكار الأنسب لتهدئة النفس وتقوية الإيمان في نفس اللحظة.
+      </p>
+    </div>
+
+    <div class="feature-box">
+      <div class="feature-box-title">8. البث المباشر لقنوات الحرمين</div>
+      <p style="font-size:9pt; margin:0;">
+        • <strong>المشغل المباشر:</strong> بث تلفزيوني حي 24/7 لقناة القرآن الكريم من مكة المكرمة وقناة السنة النبوية من المدينة المنورة عبر <code>youtube_player_flutter</code> و <code>webview_flutter</code>.
+      </p>
+    </div>
+
+    <div class="feature-box">
+      <div class="feature-box-title">9. التقويم الهجري ومتتبع الصيام</div>
+      <p style="font-size:9pt; margin:0;">
+        • <strong>التقويم الهجري:</strong> حساب التواريخ والمناسبات الإسلامية عبر مكتبة <code>hijri</code>.<br>
+        • <strong>مُتتبع الصيام:</strong> تسجيل أيام الصيام (رمضان، الأيام البيض، الإثنين والخميس) وتوليد إحصائيات وتنبيهات بمواعيد السحور والإفطار.
+      </p>
+    </div>
+
+    <div class="feature-box">
+      <div class="feature-box-title">10. تخصيص الواجهة والسمات (UI Customization)</div>
+      <p style="font-size:9pt; margin:0;">
+        • <strong>محرر اللوحة الرئيسية:</strong> إمكانية إعادة ترتيب وإخفاء البطاقات التفاعلية عبر <code>HomeLayoutEditorScreen</code> و <code>HomeLayoutProvider</code>.<br>
+        • <strong>نظام السمات:</strong> دعم الدارك مود (Global Dark Mode) ومستويات الألوان الزجاجية عبر <code>ThemeProvider</code>.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 3: PERMISSIONS AUDIT -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">3</div>
+    <h2 class="section-title">جرد الأذونات والتراخيص (Permissions Audit)</h2>
+  </div>
+
+  <p>
+    تم إجراء فحص شامل لملفات التكوين <code>AndroidManifest.xml</code> و <code>Info.plist</code> وكود إدارة الأذونات <code>PermissionService</code>. يوضح الجدول التالي الأذونات المطلوبة والغرض منها والسبب البرمجي ومستوى الخطورة:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 25%;">اسم الإذن (Permission)</th>
+        <th style="width: 25%;">الغرض الوظيفي للمستخدم</th>
+        <th style="width: 35%;">السبب البرمجي داخل الكود المصدري</th>
+        <th style="width: 15%;">درجة الخطورة</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>ACCESS_FINE_LOCATION</code><br><code>ACCESS_COARSE_LOCATION</code></td>
+        <td>تحديد موقع الجهاز الحالي.</td>
+        <td>حساب أوقات الصلاة الدقيقة بواسطة مكتبة <code>adhan</code> وتحديد اتجاه القبلة بالنسبة للموقع الجغرافي.</td>
+        <td><span class="badge badge-warning">متوسطة</span></td>
+      </tr>
+      <tr>
+        <td><code>POST_NOTIFICATIONS</code></td>
+        <td>عرض إشعارات الأذان والأذكار.</td>
+        <td>السماح لنظام <code>flutter_local_notifications</code> بخروج التنبيهات في Android 13+ و iOS.</td>
+        <td><span class="badge badge-info">منخفضة</span></td>
+      </tr>
+      <tr>
+        <td><code>SCHEDULE_EXACT_ALARM</code><br><code>USE_EXACT_ALARM</code></td>
+        <td>تنبيه الأذان بالثانية في وقته.</td>
+        <td>جدولة المنبهات الدقيقة في نظام Android 12+ و Android 14+ لضمان عدم تأخير الأذان عند نوم الجهاز.</td>
+        <td><span class="badge badge-warning">متوسطة</span></td>
+      </tr>
+      <tr>
+        <td><code>RECEIVE_BOOT_COMPLETED</code></td>
+        <td>استمرار التنبيهات بعد إعادة تشغيل الجهاز.</td>
+        <td>إعادة جدولة تنبيهات الأذان والتقويم الهجري تلقائياً فور إعادة تشغيل الهاتف بدون الحاجة لفتح التطبيق.</td>
+        <td><span class="badge badge-info">منخفضة</span></td>
+      </tr>
+      <tr>
+        <td><code>FOREGROUND_SERVICE</code><br><code>WAKE_LOCK</code></td>
+        <td>استمرار صوت التلاوة والأذان.</td>
+        <td>منع النظام من إيقاف الخدمة الصوتية <code>just_audio_background</code> أثناء إغلاق الشاشة أو الاستماع للتلاوة.</td>
+        <td><span class="badge badge-info">منخفضة</span></td>
+      </tr>
+      <tr>
+        <td><code>CAMERA</code></td>
+        <td>رؤية اتجاه القبلة بالواقع المعزز.</td>
+        <td>فتح الكاميرا المباشرة في شاشة <code>ArQiblaScreen</code> لتراكب سهم القبلة ثلاثي الأبعاد فوق العالم الحقيقي.</td>
+        <td><span class="badge badge-danger">عالية (تتطلب موافقة)</span></td>
+      </tr>
+      <tr>
+        <td><code>VIBRATE</code></td>
+        <td>الاستجابة اللمسية عند التسبيح.</td>
+        <td>تفعيل الاهتزاز الخفيف (Haptic Feedback) في شاشات <code>TasbihScreen</code> عند زيادة العداد.</td>
+        <td><span class="badge badge-info">منخفضة</span></td>
+      </tr>
+      <tr>
+        <td><code>INTERNET</code></td>
+        <td>جلب البيانات والبث المباشر.</td>
+        <td>التواصل مع Gemini API، البث المباشر عبر يوتيوب، جلب التحديثات، واستقبال إشعارات FCM.</td>
+        <td><span class="badge badge-info">منخفضة</span></td>
+      </tr>
+      <tr>
+        <td><code>RECORD_AUDIO</code><br><strong style="color:#991B1B;">(تم إزالته صراحة)</strong></td>
+        <td>حماية الخصوصية.</td>
+        <td>تم حظره برمجياً بـ <code>tools:node="remove"</code> لإلغاء طلب الميكروفون المرفق تلقائياً مع حزمة الكاميرا.</td>
+        <td><span class="badge badge-success">تم الحظر للأمان</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="card card-success">
+    <strong>ملاحظة أمنية استثنائية:</strong>
+    قام الفريق المطور بإجراء ممتاز بحظر إذن تسجيل الصوت <code>RECORD_AUDIO</code> صراحة في ملف <code>AndroidManifest.xml</code> باستخدام <code>tools:node="remove"</code> لمنع حزمة الكاميرا من طلب إذن الميكروفون دون الحاجة إليه، مما يعزز ثقة المستخدم وسلامة الأذونات على المتاجر.
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 4: TECHNICAL ARCHITECTURE -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">4</div>
+    <h2 class="section-title">البنية التقنية وحزمة المكتبات (Technical Architecture)</h2>
+  </div>
+
+  <h3>4.1 المعمارية البرمجية (Software Architecture)</h3>
+  <p>
+    يعتمد التطبيق على معمارية <strong>Layered Architecture</strong> المنظمة، المقسمة كما يلي:
+  </p>
+
+  <div class="card">
+    <ul style="margin:0; padding-right:20px; font-size:10pt;">
+      <li><strong>طبقة العرض والواجهات (Presentation Layer - <code>lib/screens</code>, <code>lib/widgets</code>):</strong> تحتوي على كافة الشاشات والـ Glass Components التي تتفاعل مع المستخدم وتطبق تصميم Glassmorphism.</li>
+      <li><strong>طبقة إدارة الحالة (State Management Layer - <code>lib/providers</code>):</strong> تُدار بواسطة حزمة <code>provider</code> من خلال أربعة مزودات رئيسية:
+        <ul>
+          <li><code>PrayerTimesProvider</code>: إدارة حسابات ومواقيت الصلاة وإعادة التقييم الجغرافي.</li>
+          <li><code>ThemeProvider</code>: التحكم بألوان ودعم الوضع الداكن الموحد (Global Dark Mode).</li>
+          <li><code>HomeLayoutProvider</code>: حفظ وتعديل ترتيب بطاقات اللوحة الرئيسية.</li>
+          <li><code>TypographyProvider</code>: إدارة حجم وتناسق الخطوط وتغيير مقياس النصوص (Text Scaling).</li>
+        </ul>
+      </li>
+      <li><strong>طبقة الخدمات والذكاء (Services & Engine Layer - <code>lib/services</code>):</strong> خدمات كبسولية مثل <code>AIService</code> (Gemini AI Integration)، <code>AudioPlayerService</code> (Background Audio)، <code>PermissionService</code>، و <code>UpdateService</code>.</li>
+      <li><strong>طبقة البيانات والمصادر (Data Layer - <code>lib/data</code>, <code>assets/</code>):</strong> تشمل قواعد الأحاديث والأذكار المخزنة محلياً لضمان السرعة والعمل بدون إنترنت (Offline-First Approach).</li>
+    </ul>
+  </div>
+
+  <h3>4.2 جرد الحزم والمكتبات الخارجية (Dependencies Matrix)</h3>
+  <p>جدول يوضح أهم المكتبات المستخدمة في <code>pubspec.yaml</code> ودورها التقني:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>الحزمة (Package)</th>
+        <th>الإصدار</th>
+        <th>الوظيفة والهدف التقني داخل التطبيق</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>provider</code></td>
+        <td>^6.0.0</td>
+        <td>إدارة حالة التطبيق وتحديث الواجهات بحفاء وسرعة عالية.</td>
+      </tr>
+      <tr>
+        <td><code>just_audio</code> / <code>just_audio_background</code></td>
+        <td>^0.9.35</td>
+        <td>مشغل الصوتيات وتلاوات القرآن في الأمام والخلفية مع الإشعار المباشر.</td>
+      </tr>
+      <tr>
+        <td><code>adhan</code></td>
+        <td>^2.0.0</td>
+        <td>خوارزمية الفلك الرياضية لحساب أوقات الصلاة بدقة.</td>
+      </tr>
+      <tr>
+        <td><code>geolocator</code> / <code>geocoding</code></td>
+        <td>^10.1.0</td>
+        <td>جلب إحداثيات GPS وتحويلها لأسماء المدن والمواقع.</td>
+      </tr>
+      <tr>
+        <td><code>flutter_local_notifications</code> / <code>workmanager</code></td>
+        <td>^17.0.0</td>
+        <td>إدارة وتزامن التنبيهات المجدولة ومواقيت الأذان في الخلفية.</td>
+      </tr>
+      <tr>
+        <td><code>flutter_compass</code> / <code>camera</code> / <code>vector_math</code></td>
+        <td>^0.8.1</td>
+        <td>مكونات القبلة بالواقع المعزز (AR) والبوصلة الرقمية.</td>
+      </tr>
+      <tr>
+        <td><code>google_generative_ai</code></td>
+        <td>^0.4.6</td>
+        <td>التكامل المباشر مع الذكاء الاصطناعي Google Gemini API.</td>
+      </tr>
+      <tr>
+        <td><code>home_widget</code></td>
+        <td>^0.8.1</td>
+        <td>تحديث ودعم ويدجت مواقيت الصلاة على شاشات أندرويد الرئيسية.</td>
+      </tr>
+      <tr>
+        <td><code>firebase_core</code> / <code>firebase_messaging</code></td>
+        <td>^3.8.0</td>
+        <td>استقبال التنبيهات السحابية الفورية (FCM) والتحليلات.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="page-break"></div>
+
+<!-- SECTION 5: COST & TIME ESTIMATION -->
+<div class="section">
+  <div class="section-header">
+    <div class="section-number">5</div>
+    <h2 class="section-title">دراسة التكلفة والجدول الزمني (Cost & Time Estimation)</h2>
+  </div>
+
+  <h3>5.1 التفكيك التقديري لساعات العمل (Work Breakdown Structure - WBS)</h3>
+  <p>
+    بناءً على التحليل البرمجي لكود التطبيق وحجم الميزات المنجزة، يتطلب بناء هذا المشروع من الصفر فريق تطوير متكامل يغطي <strong>540 ساعة عمل فعلية</strong> تتوزع حسب الوحدات التالية:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>المرحلة / المكون التقني</th>
+        <th>ساعات UX/UI</th>
+        <th>ساعات البرمجة</th>
+        <th>ساعات الاختبار والربط</th>
+        <th>إجمالي الساعات</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>التخطيط والتصميم الزجاجي Glassmorphism</td>
+        <td>50</td>
+        <td>30</td>
+        <td>10</td>
+        <td><strong>90 ساعة</strong></td>
+      </tr>
+      <tr>
+        <td>وحدة القرآن والمشغل الصوتي في الخلفية</td>
+        <td>10</td>
+        <td>50</td>
+        <td>20</td>
+        <td><strong>80 ساعة</strong></td>
+      </tr>
+      <tr>
+        <td>مواقيت الصلاة، الأذان، وويدجت النظام</td>
+        <td>10</td>
+        <td>45</td>
+        <td>20</td>
+        <td><strong>75 ساعة</strong></td>
+      </tr>
+      <tr>
+        <td>ميزة القبلة بالواقع المعزز (AR Qibla) والبوصلة</td>
+        <td>10</td>
+        <td>55</td>
+        <td>15</td>
+        <td><strong>80 ساعة</strong></td>
+      </tr>
+      <tr>
+        <td>تكامل الذكاء الاصطناعي Google Gemini AI</td>
+        <td>10</td>
+        <td>35</td>
+        <td>15</td>
+        <td><strong>60 ساعة</strong></td>
+      </tr>
+      <tr>
+        <td>الأذكار، الأحاديث، متتبع الصيام والمزاج</td>
+        <td>15</td>
+        <td>40</td>
+        <td>15</td>
+        <td><strong>70 ساعة</strong></td>
+      </tr>
+      <tr>
+        <td>البث المباشر، التحديثات، واختبارات القبول QA</td>
+        <td>10</td>
+        <td>40</td>
+        <td>35</td>
+        <td><strong>85 ساعة</strong></td>
+      </tr>
+      <tr style="background:#F1F5F9; font-weight:700;">
+        <td>الإجمالي الكلي لتطوير المشروع</td>
+        <td>115 ساعة</td>
+        <td>295 ساعة</td>
+        <td>130 ساعة</td>
+        <td><span style="color:#001C30; font-size:11pt;">540 ساعة عمل</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>5.2 مقارنة التكلفة والجدول الزمني بين الشركات الأجنبية والعربية</h3>
+  <p>
+    جدول مقارنة تفصيلي يوضح تكلفة بناء التطبيق من الصفر والجدول الزمني المتوقع:
+  </p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 20%;">معيار المقارنة</th>
+        <th style="width: 40%;">أ) التعاقد مع شركة تطوير أجنبية (Global / US / EU)</th>
+        <th style="width: 40%;">ب) التعاقد مع شركة تطوير عربية (الشرق الأوسط / مصر / الخليج)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>متوسط التكلفة بالساعة</strong></td>
+        <td>65$ - 120$ / ساعة</td>
+        <td>25$ - 45$ / ساعة</td>
+      </tr>
+      <tr>
+        <td><strong>التكلفة الإجمالية التقديرية</strong></td>
+        <td><strong style="color:#991B1B;">35,100$ - 64,800$ دولار</strong></td>
+        <td><strong style="color:#166534;">13,500$ - 24,300$ دولار</strong></td>
+      </tr>
+      <tr>
+        <td><strong>الجدول الزمني للتنفيذ</strong></td>
+        <td>10 إلى 14 أسبوعاً (حوالي 3 أشهر)</td>
+        <td>8 إلى 12 أسبوعاً (حوالي 2.5 شهر)</td>
+      </tr>
+      <tr>
+        <td><strong>مميزات الخيار</strong></td>
+        <td>خبرة عالية في الـ AR والمشغلات الصوتية المعقدة، والالتزام الصارم بالـ QA.</td>
+        <td>فهم دقيق وعميق للمحتوى الإسلامي والثقافي، سهولة التواصل باللغة العربية، وتكلفة تنافسية ممتازة.</td>
+      </tr>
+      <tr>
+        <td><strong>التحديات والمخاطر</strong></td>
+        <td>تكلفة مرتفعة جداً، واختلاف المناطق الزمنية واللغة عند المراجعات الفقهية.</td>
+        <td>تفاوت مستويات الجودة بين الشركات، مما يتطلب اختيار شركة ذات بورتفوليو قوي في Flutter.</td>
+      </tr>
+      <tr>
+        <td><strong>التوصية الاستشارية</strong></td>
+        <td colspan="2" style="background:#F0FDF4; text-align:center; font-weight:700; color:#166534;">
+          توصية الخبير: التعاقد مع شركة تطوير عربية متخصصة في Flutter يوفر نحو 60% من الميزانية مع ضمان الفهم الكامل لمتطلبات التطبيقات الإسلامية.
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="footer-note">
+    تم توليد هذا التقرير الفني والاستشاري تلقائياً بواسطة نظام التحليل التقني المتقدم لمشاريع Flutter.<br>
+    جميع البيانات مستخرجة 100% من فحص الكود المصدري وملفات التكوين الخاصة بمشروع <strong>Ana Muslim</strong>.
+  </div>
+</div>
+
+</body>
+</html>

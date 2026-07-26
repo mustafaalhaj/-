@@ -1,0 +1,132 @@
+name: ana_muslim
+description: "تطبيق إسلامي شامل - Ana Muslim App"
+publish_to: "none"
+
+version: 1.0.7+7
+
+environment:
+  sdk: ^3.10.1
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # UI & State Management
+  provider: ^6.0.0
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.1.0
+  flutter_colorpicker: ^1.1.0
+  cached_network_image: ^3.3.1
+
+  # Audio
+  just_audio: ^0.9.35
+  just_audio_background: ^0.0.1-beta.11
+
+  # Storage
+  shared_preferences: ^2.2.2
+
+  # Islamic Features
+  adhan: ^2.0.0
+  quran: ^1.4.1
+
+  # Location & GPS
+  geolocator: ^10.1.0
+  geocoding: ^2.1.1
+  permission_handler: ^11.0.1
+
+  # Notifications
+  flutter_local_notifications: ^17.0.0
+  timezone: ^0.9.2
+
+  # Sensors
+  flutter_compass: ^0.8.1
+  vector_math: ^2.1.4
+
+  # Utilities
+  http: ^1.1.0
+  intl: ^0.20.2
+  crypto: ^3.0.3
+  share_plus: ^7.2.1
+  url_launcher: ^6.2.2
+
+  # AI
+  google_generative_ai: ^0.4.6
+
+  # Effects
+  vibration: ^2.0.0
+
+  # Splash Screen
+  flutter_native_splash: ^2.4.1
+  hijri: ^3.0.0
+  home_widget: ^0.8.1
+  camera: ^0.11.3
+  youtube_player_flutter: ^9.0.3
+  sensors_plus: ^7.0.0
+  webview_flutter: ^4.13.0
+  workmanager: ^0.9.0+3
+  package_info_plus: ^9.0.0
+
+  # Firebase
+  firebase_core: ^3.8.0
+  firebase_analytics: ^11.3.5
+  firebase_messaging: ^15.1.5
+  firebase_in_app_messaging: ^0.8.1+10
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.3
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon.jpg"
+  min_sdk_android: 21 # android min sdk min:16, default 21
+  web:
+    generate: true
+    image_path: "assets/icon.jpg"
+    background_color: "#hex_code"
+    theme_color: "#hex_code"
+  windows:
+    generate: true
+    image_path: "assets/icon.jpg"
+    icon_size: 48 # min:48, max:256, default: 48
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+  generate: true
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/calendar/
+    - assets/splash.png
+
+# Splash Screen Configuration
+flutter_native_splash:
+  color: "#001C30"
+  image: assets/splash.png
+  android_12:
+    image: assets/splash.png
+    color: "#001C30"
+  android: true
+  ios: true
