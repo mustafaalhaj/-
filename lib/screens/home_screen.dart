@@ -10,7 +10,7 @@ import '../providers/prayer_times_provider.dart';
 import 'package:adhan/adhan.dart';
 import '../providers/home_layout_provider.dart';
 
-/// الشاشة الرئيسية المحدثة بتصميم زجاجي (Glassmorphism)
+/// الشاشة الرئيسية - تستخدم ListView مباشرةً لضمان العرض الصحيح على iOS
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -39,12 +39,9 @@ class _HomeScreenState extends State<HomeScreen> {
   String _getTimeRemaining(DateTime prayerTime) {
     final now = DateTime.now();
     final difference = prayerTime.difference(now);
-
     if (difference.isNegative) return 'الآن';
-
     final hours = difference.inHours;
     final minutes = difference.inMinutes.remainder(60);
-
     if (hours > 0) {
       return 'باقي $hours ساعة و $minutes دقيقة';
     } else {
@@ -71,7 +68,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Determine theme brightness
     final isDark = Theme.of(context).brightness == Brightness.dark;
     final primaryColor = Theme.of(context).colorScheme.primary;
     final layoutProvider = Provider.of<HomeLayoutProvider>(context);
@@ -81,354 +77,295 @@ class _HomeScreenState extends State<HomeScreen> {
       extendBodyBehindAppBar: true,
       body: GlassBackground(
         isDark: isDark,
+        // ✅ استخدام ListView مباشرةً بدل CustomScrollView+Slivers
+        // ListView مضمون العمل على iOS/Android بدون مشاكل القيود
         child: SafeArea(
-          child: CustomScrollView(
+          child: ListView(
             physics: const BouncingScrollPhysics(),
-            slivers: _buildSlivers(layoutProvider, primaryColor),
+            padding: const EdgeInsets.only(bottom: 100),
+            children: _buildSections(layoutProvider, primaryColor),
           ),
         ),
       ),
     );
   }
 
-  List<Widget> _buildSlivers(
+  List<Widget> _buildSections(
     HomeLayoutProvider layoutProvider,
     Color primaryColor,
   ) {
-    List<Widget> slivers = [];
-
-    if (layoutProvider.isLoading) {
-      return [
-        const SliverFillRemaining(
-          child: Center(
-            child: CircularProgressIndicator(color: Colors.amber),
-          ),
-        ),
-      ];
-    }
-
+    // ✅ لا نعتمد على isLoading - نعرض الافتراضي فوراً دائماً
     final activeItems = layoutProvider.activeWidgets;
 
+    List<Widget> sections = [];
+
     if (activeItems.isEmpty) {
-      // Fallback default layout in case activeWidgets is empty
-      slivers.add(_buildHeaderSliver());
-      slivers.add(_buildNextPrayerSliver());
-      slivers.add(_buildQuickActionsSliver(primaryColor));
-      slivers.add(_buildHijriDateSliver());
-      slivers.add(_buildDailyVerseSliver());
+      sections.add(_buildHeader(primaryColor));
+      sections.add(_buildNextPrayer());
+      sections.add(_buildQuickActions(primaryColor));
+      sections.add(_buildHijriDate());
+      sections.add(_buildDailyVerse());
     } else {
       for (var item in activeItems) {
         switch (item.type) {
           case HomeWidgetType.header:
-            slivers.add(_buildHeaderSliver());
+            sections.add(_buildHeader(primaryColor));
             break;
           case HomeWidgetType.nextPrayer:
-            slivers.add(_buildNextPrayerSliver());
+            sections.add(_buildNextPrayer());
             break;
           case HomeWidgetType.quickActions:
-            slivers.add(_buildQuickActionsSliver(primaryColor));
+            sections.add(_buildQuickActions(primaryColor));
             break;
           case HomeWidgetType.dailyVerse:
-            slivers.add(_buildDailyVerseSliver());
+            sections.add(_buildDailyVerse());
             break;
           case HomeWidgetType.hijriDate:
-            slivers.add(_buildHijriDateSliver());
+            sections.add(_buildHijriDate());
             break;
         }
       }
     }
 
-    // Add bottom padding for navbar
-    slivers.add(const SliverToBoxAdapter(child: SizedBox(height: 100)));
-
-    return slivers;
+    return sections;
   }
 
-  Widget _buildHeaderSliver() {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'السلام عليكم',
-                  style: GoogleFonts.cairo(fontSize: 18, color: Colors.white),
-                ),
-                ValueListenableBuilder<int>(
-                  valueListenable: FirebaseNotificationService().unreadCount,
-                  builder: (context, count, child) {
-                    return Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.pushNamed(context, '/notifications');
-                          },
-                          icon: Container(
-                            padding: const EdgeInsets.all(8),
-                            decoration: BoxDecoration(
-                              color: Colors.white.withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(12),
+  // ─── Header ────────────────────────────────────────────────────────────────
+
+  Widget _buildHeader(Color primaryColor) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 12.0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'السلام عليكم',
+                style: GoogleFonts.cairo(fontSize: 18, color: Colors.white),
+              ),
+              ValueListenableBuilder<int>(
+                valueListenable: FirebaseNotificationService().unreadCount,
+                builder: (context, count, child) {
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/notifications');
+                        },
+                        icon: Container(
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.1),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.notifications_outlined,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                      if (count > 0)
+                        Positioned(
+                          top: 8,
+                          right: 8,
+                          child: Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: const BoxDecoration(
+                              color: Colors.red,
+                              shape: BoxShape.circle,
                             ),
-                            child: const Icon(
-                              Icons.notifications_outlined,
-                              color: Colors.white,
+                            constraints: const BoxConstraints(
+                              minWidth: 16,
+                              minHeight: 16,
+                            ),
+                            child: Text(
+                              '$count',
+                              style: GoogleFonts.inter(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ),
-                        if (count > 0)
-                          Positioned(
-                            top: 8,
-                            right: 8,
-                            child: Container(
-                              padding: const EdgeInsets.all(4),
-                              decoration: const BoxDecoration(
-                                color: Colors.red,
-                                shape: BoxShape.circle,
-                              ),
-                              constraints: const BoxConstraints(
-                                minWidth: 16,
-                                minHeight: 16,
-                              ),
-                              child: Text(
-                                '$count',
-                                style: GoogleFonts.inter(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Text(
-              _currentTime,
-              style: GoogleFonts.inter(
-                fontSize: 64,
-                fontWeight: FontWeight.w200,
-                color: Colors.white,
-                height: 1,
+                    ],
+                  );
+                },
               ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Text(
+            _currentTime,
+            style: GoogleFonts.inter(
+              fontSize: 64,
+              fontWeight: FontWeight.w200,
+              color: Colors.white,
+              height: 1,
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget _buildNextPrayerSliver() {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
-        child: Consumer<PrayerTimesProvider>(
-          builder: (context, prayerProvider, child) {
-            if (prayerProvider.isLoading) {
-              return GlassCard(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 16,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      width: 20,
-                      height: 20,
-                      child: CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 2,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Text(
-                      'جاري تحميل المواقيت...',
-                      style: GoogleFonts.cairo(
-                        color: Colors.white70,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
-              );
-            }
+  // ─── Next Prayer ────────────────────────────────────────────────────────────
 
-            if (prayerProvider.prayerTimes == null) {
-              return GlassCard(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 24,
-                  vertical: 16,
-                ),
-                child: Text(
-                  'تعذر تحميل المواقيت',
-                  style: GoogleFonts.cairo(color: Colors.white70, fontSize: 14),
-                  textAlign: TextAlign.center,
-                ),
-              );
-            }
-
-            final nextPrayer = prayerProvider.prayerTimes!.nextPrayer();
-            final nextPrayerTime = prayerProvider.prayerTimes!.timeForPrayer(
-              nextPrayer,
-            );
-
-            String nextPrayerName = _getPrayerName(nextPrayer);
-            String nextPrayerTimeStr = nextPrayerTime != null
-                ? intl.DateFormat.jm('ar').format(nextPrayerTime)
-                : '--:--';
-            String timeRemaining = nextPrayerTime != null
-                ? _getTimeRemaining(nextPrayerTime)
-                : '';
-
+  Widget _buildNextPrayer() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+      child: Consumer<PrayerTimesProvider>(
+        builder: (context, prayerProvider, child) {
+          if (prayerProvider.isLoading) {
             return GlassCard(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'الصلاة القادمة',
-                          style: GoogleFonts.cairo(
-                            fontSize: 14,
-                            color: Colors.white70,
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              nextPrayerName,
-                              style: GoogleFonts.cairo(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              nextPrayerTimeStr,
-                              style: GoogleFonts.inter(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: AppColors.secondary,
-                              ),
-                            ),
-                          ],
-                        ),
-                        if (timeRemaining.isNotEmpty) ...[
-                          const SizedBox(height: 4),
-                          Text(
-                            timeRemaining,
-                            style: GoogleFonts.cairo(
-                              fontSize: 12,
-                              color: Colors.white60,
-                            ),
-                          ),
-                        ],
-                      ],
+                  const SizedBox(
+                    width: 20,
+                    height: 20,
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2,
                     ),
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white.withValues(alpha: 0.1),
-                    ),
-                    child: const Icon(
-                      Icons.notifications_active_rounded,
-                      color: AppColors.secondary,
-                    ),
+                  const SizedBox(width: 12),
+                  Text(
+                    'جاري تحميل المواقيت...',
+                    style: GoogleFonts.cairo(color: Colors.white70, fontSize: 14),
                   ),
                 ],
               ),
             );
-          },
-        ),
+          }
+
+          if (prayerProvider.prayerTimes == null) {
+            return GlassCard(
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+              child: Text(
+                'تعذر تحميل المواقيت',
+                style: GoogleFonts.cairo(color: Colors.white70, fontSize: 14),
+                textAlign: TextAlign.center,
+              ),
+            );
+          }
+
+          final nextPrayer = prayerProvider.prayerTimes!.nextPrayer();
+          final nextPrayerTime = prayerProvider.prayerTimes!.timeForPrayer(nextPrayer);
+          final nextPrayerName = _getPrayerName(nextPrayer);
+          final nextPrayerTimeStr = nextPrayerTime != null
+              ? intl.DateFormat.jm('ar').format(nextPrayerTime)
+              : '--:--';
+          final timeRemaining = nextPrayerTime != null
+              ? _getTimeRemaining(nextPrayerTime)
+              : '';
+
+          return GlassCard(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'الصلاة القادمة',
+                        style: GoogleFonts.cairo(
+                          fontSize: 14,
+                          color: Colors.white70,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            nextPrayerName,
+                            style: GoogleFonts.cairo(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Text(
+                            nextPrayerTimeStr,
+                            style: GoogleFonts.inter(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.secondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                      if (timeRemaining.isNotEmpty) ...[
+                        const SizedBox(height: 4),
+                        Text(
+                          timeRemaining,
+                          style: GoogleFonts.cairo(
+                            fontSize: 12,
+                            color: Colors.white60,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white.withValues(alpha: 0.1),
+                  ),
+                  child: const Icon(
+                    Icons.notifications_active_rounded,
+                    color: AppColors.secondary,
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
 
-  Widget _buildQuickActionsSliver(Color primaryColor) {
+  // ─── Quick Actions Grid ─────────────────────────────────────────────────────
+
+  Widget _buildQuickActions(Color primaryColor) {
     final features = [
-      {
-        'title': 'مواقيت الصلاة',
-        'icon': Icons.access_time_filled_rounded,
-        'route': '/prayer',
-        'color': primaryColor,
-      },
-      {
-        'title': 'القرآن الكريم',
-        'icon': Icons.menu_book_rounded,
-        'route': '/quran',
-        'color': primaryColor,
-      },
-      {
-        'title': 'الأذكار',
-        'icon': Icons.volunteer_activism_rounded,
-        'route': '/adhkar',
-        'color': primaryColor,
-      },
-      {
-        'title': 'القبلة',
-        'icon': Icons.explore_rounded,
-        'route': '/qibla',
-        'color': primaryColor,
-      },
-      {
-        'title': 'الحديث',
-        'icon': Icons.format_quote_rounded,
-        'route': '/hadith',
-        'color': primaryColor,
-      },
-      {
-        'title': 'التسبيح',
-        'icon': Icons.fingerprint_rounded,
-        'route': '/tasbih',
-        'color': primaryColor,
-      },
-      {
-        'title': 'تتبع الصيام',
-        'icon': Icons.nights_stay_rounded,
-        'route': '/fasting',
-        'color': primaryColor,
-      },
-      {
-        'title': 'التقويم الهجري',
-        'icon': Icons.calendar_month_rounded,
-        'route': '/hijri-calendar',
-        'color': primaryColor,
-      },
+      {'title': 'مواقيت الصلاة', 'icon': Icons.access_time_filled_rounded, 'route': '/prayer'},
+      {'title': 'القرآن الكريم', 'icon': Icons.menu_book_rounded, 'route': '/quran'},
+      {'title': 'الأذكار', 'icon': Icons.volunteer_activism_rounded, 'route': '/adhkar'},
+      {'title': 'القبلة', 'icon': Icons.explore_rounded, 'route': '/qibla'},
+      {'title': 'الحديث', 'icon': Icons.format_quote_rounded, 'route': '/hadith'},
+      {'title': 'التسبيح', 'icon': Icons.fingerprint_rounded, 'route': '/tasbih'},
+      {'title': 'تتبع الصيام', 'icon': Icons.nights_stay_rounded, 'route': '/fasting'},
+      {'title': 'التقويم الهجري', 'icon': Icons.calendar_month_rounded, 'route': '/hijri-calendar'},
     ];
 
-    return SliverPadding(
+    return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-      sliver: SliverGrid(
+      child: GridView.builder(
+        shrinkWrap: true, // ✅ مهم جداً داخل ListView
+        physics: const NeverScrollableScrollPhysics(), // ✅ يتحكم ListView في التمرير
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           childAspectRatio: 1.0,
           crossAxisSpacing: 16,
           mainAxisSpacing: 16,
         ),
-        delegate: SliverChildBuilderDelegate((context, index) {
+        itemCount: features.length,
+        itemBuilder: (context, index) {
           final feature = features[index];
           return GlassCard(
             onTap: () {
-              if (feature['route'] != null) {
-                Navigator.pushNamed(context, feature['route'] as String);
-              }
+              Navigator.pushNamed(context, feature['route'] as String);
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -436,7 +373,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: (feature['color'] as Color).withValues(alpha: 0.2),
+                    color: primaryColor.withValues(alpha: 0.2),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -458,57 +395,57 @@ class _HomeScreenState extends State<HomeScreen> {
               ],
             ),
           );
-        }, childCount: features.length),
+        },
       ),
     );
   }
 
-  Widget _buildDailyVerseSliver() {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
-        child: GlassCard(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            children: [
-              Text(
-                "آية اليوم",
-                style: GoogleFonts.cairo(color: Colors.white70, fontSize: 12),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                "بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ",
-                style: GoogleFonts.amiri(color: Colors.white, fontSize: 18),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
+  // ─── Daily Verse ────────────────────────────────────────────────────────────
+
+  Widget _buildDailyVerse() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+      child: GlassCard(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            Text(
+              'آية اليوم',
+              style: GoogleFonts.cairo(color: Colors.white70, fontSize: 12),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ',
+              style: GoogleFonts.amiri(color: Colors.white, fontSize: 18),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildHijriDateSliver() {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
-        child: GlassCard(
-          padding: const EdgeInsets.all(16),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.calendar_today, color: Colors.white),
-              const SizedBox(width: 10),
-              Text(
-                "14 رجب 1445", // Placeholder
-                style: GoogleFonts.cairo(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+  // ─── Hijri Date ─────────────────────────────────────────────────────────────
+
+  Widget _buildHijriDate() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+      child: GlassCard(
+        padding: const EdgeInsets.all(16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.calendar_today, color: Colors.white),
+            const SizedBox(width: 10),
+            Text(
+              '14 رجب 1445',
+              style: GoogleFonts.cairo(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
