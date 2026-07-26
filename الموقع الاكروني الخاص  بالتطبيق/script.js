@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn_top_ios: "نسخة الآيفون IPA (طريقة التثبيت)",
             btn_top_platforms: "جميع المنصات",
             btn_pdf_doc: "📄 كتيّب ودليل الميزات الشامل (PDF 3 لغات)",
+            btn_arch_doc: "📊 تقرير البنية المعمارية والميزات (PDF)",
 
             hero_badge: "✨ التحديث الجديد v1.0.7 | آيفون IPA، كمبيوتر، أندرويد، وويب!",
             hero_title: "رفيقك اليومي \n في العبادة والحياة",
@@ -124,6 +125,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn_top_ios: "iPhone IPA (Install Guide)",
             btn_top_platforms: "All Platforms",
             btn_pdf_doc: "📄 Master Features Manual (PDF 3 Languages)",
+            btn_arch_doc: "📊 Architecture & Features Report (PDF)",
 
             hero_badge: "✨ New Update v1.0.7 | iPhone IPA, Windows PC, Android & Web!",
             hero_title: "Your Daily Companion \n in Worship & Life",
@@ -232,6 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
             btn_top_ios: "Version iPhone IPA (Guide)",
             btn_top_platforms: "Toutes les Plateformes",
             btn_pdf_doc: "📄 Manuel des Fonctionnalités (PDF 3 Langues)",
+            btn_arch_doc: "📊 Rapport d'Architecture & Fonctions (PDF)",
 
             hero_badge: "✨ Nouveauté v1.0.7 | iPhone IPA, PC Windows, Android & Web !",
             hero_title: "Votre Compagnon \n Quotidien",
