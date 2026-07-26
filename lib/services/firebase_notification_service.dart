@@ -68,47 +68,59 @@ class FirebaseNotificationService {
       return;
     }
 
-    // تحديث العداد عند البدء
+    // تحديث العداد عند البدء فوراً (لا ينتظر الإذن)
     await _updateUnreadCount();
 
-    // 1. طلب الإذن (مهم للـ iOS و Android 13+)
-    NotificationSettings settings = await _firebaseMessaging.requestPermission(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
-
-    if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      debugPrint('User granted FCM permission');
-    } else {
-      debugPrint('User declined or has not accepted FCM permission');
-      return;
-    }
-
-    // 2. الحصول على توكين FCM والمتابعة والتحديث
-    try {
-      _fcmToken = await _firebaseMessaging.getToken();
-      debugPrint('FCM Registration Token: $_fcmToken');
-      _firebaseMessaging.onTokenRefresh.listen((newToken) {
-        _fcmToken = newToken;
-        debugPrint('FCM Token Refreshed: $newToken');
-      });
-    } catch (e) {
-      debugPrint('Error getting FCM Token: $e');
-    }
-
-    // 3. الاشتراك الافتراضي في المواضيع العامة (Default Topic Subscriptions)
-    await _subscribeToDefaultTopics();
-
-    // 4. التعامل مع الرسائل أثناء تشغيل التطبيق (Foreground)
+    // ✅ تسجيل المستمعين فوراً بدون انتظار الإذن
+    // حتى لا يتوقف عرض التطبيق عند أول فتح
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       _handleForegroundMessage(message);
     });
 
-    // 5. التعامل مع فتح التطبيق من الإشعار
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       debugPrint('Notification Message opened app: ${message.data}');
       _handleNotificationClick(message);
+    });
+
+    // ✅ طلب الإذن في الخلفية (لا يعلّق الـ UI على iOS)
+    _requestPermissionsInBackground();
+  }
+
+  /// طلب الإذن في الخلفية حتى لا يعلّق التطبيق عند الفتح
+  void _requestPermissionsInBackground() {
+    Future.microtask(() async {
+      try {
+        // 1. طلب الإذن بشكل غير متزامن
+        NotificationSettings settings =
+            await _firebaseMessaging.requestPermission(
+          alert: true,
+          badge: true,
+          sound: true,
+        );
+
+        if (settings.authorizationStatus != AuthorizationStatus.authorized) {
+          debugPrint('FCM permission not granted');
+          return;
+        }
+
+        debugPrint('FCM permission granted');
+
+        // 2. الحصول على التوكين
+        try {
+          _fcmToken = await _firebaseMessaging.getToken();
+          debugPrint('FCM Token: $_fcmToken');
+          _firebaseMessaging.onTokenRefresh.listen((newToken) {
+            _fcmToken = newToken;
+          });
+        } catch (e) {
+          debugPrint('FCM Token error: $e');
+        }
+
+        // 3. الاشتراك في المواضيع
+        await _subscribeToDefaultTopics();
+      } catch (e) {
+        debugPrint('FCM background init error: $e');
+      }
     });
   }
 
