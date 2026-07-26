@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="google-site-verification" content="lcUD7C61SsKioWIORIvfq9VLqn5dO6b5n-SoDGcxxmI" />
+
+    <!-- Primary Meta Tags -->
+    <title>أنا مسلم | تطبيق الأذان، القرآن، والأذكار الشامل - Ana Muslim App</title>
+    <meta name="title" content="أنا مسلم | تطبيق الأذان، القرآن، والأذكار الشامل - Ana Muslim App">
+    <meta name="description"
+        content="تطبيق أنا مسلم (Ana Muslim) v1.0.7 - متوفر للآيفون (IPA)، الأندرويد (APK)، الويندوز (PC)، وموقع الويب (PWA). رفيقك الشامل: قرآن كريم، مواقيت الصلاة والأذان، أذكار الصباح والمساء، والقبلة.">
+    <meta name="keywords"
+        content="تطبيق أنا مسلم, Ana Muslim, iOS IPA, آيفون 1.0.7, Sideloadly, القرآن الكريم, مواقيت الصلاة, أذكار, اتجاه القبلة, الأذان, التقويم الهجري, تطبيق كمبيوتر, تطبيق ويب, Muslim App">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Arabic">
+    <meta name="author" content="Ana Muslim Team">
+    <link rel="canonical" href="https://anamuslim.eu/">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://anamuslim.eu/">
+    <meta property="og:title" content="أنا مسلم | التحديث الجديد 1.0.7 متوفر الآن لجميع المنصات">
+    <meta property="og:description"
+        content="أفضل تطبيق إسلامي شامل: قرآن كريم، أذكار، ومواقيت الصلاة. متوفر للآيفون، الأندرويد، الكمبيوتر، والويب.">
+    <meta property="og:image" content="https://anamuslim.eu/assets/social_image.png">
+    <meta property="og:site_name" content="Ana Muslim">
+    <meta property="og:locale" content="ar_AR">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://anamuslim.eu/">
+    <meta property="twitter:title" content="أنا مسلم | التحديث الجديد 1.0.7 متوفر الآن لجميع المنصات">
+    <meta property="twitter:description"
+        content="أفضل تطبيق إسلامي شامل: قرآن كريم، أذكار، ومواقيت الصلاة. متوفر للآيفون، الأندرويد، الكمبيوتر، والويب.">
+    <meta property="twitter:image" content="https://anamuslim.eu/assets/social_image.png">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="assets/icon.jpg">
+    <link rel="apple-touch-icon" href="assets/icon.jpg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Film Grain Texture -->
+    <div class="grain-overlay"></div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="loader-content">
+            <div class="loader-icon"><i class="fas fa-mosque"></i></div>
+            <div class="loader-bar">
+                <div class="progress"></div>
+            </div>
+            <p style="margin-top:10px; opacity:0.7; font-size:0.9rem;">جاري تحميل التجربة الكاملة v1.0.7...</p>
+        </div>
+    </div>
+
+    <!-- Aurora Background -->
+    <div class="aurora-container">
+        <div class="aurora-blob blob-1"></div>
+        <div class="aurora-blob blob-2"></div>
+        <div class="aurora-blob blob-3"></div>
+    </div>
+
+    <!-- Interactive Canvas Background -->
+    <canvas id="bg-canvas"></canvas>
+
+    <!-- Header / Navbar -->
+    <header class="header glass initial-hidden">
+        <div class="container navbar">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-mosque"></i></div>
+                <div class="logo-text">
+                    <h1 data-i18n="app_name">أنا مسلم</h1>
+                    <span data-i18n="app_subtitle">Ana Muslim v1.0.7</span>
+                </div>
+            </div>
+
+            <!-- Desktop Nav -->
+            <nav class="nav-links desktop-nav">
+                <a href="#features" data-i18n="nav_features">المميزات</a>
+                <a href="#download" data-i18n="nav_download">جميع المنصات والتحميل</a>
+                <a href="#ios-guide" onclick="openIosModal(event)">دليل الآيفون IPA</a>
+                <a href="#faq" data-i18n="nav_faq">الأسئلة</a>
+            </nav>
+
+            <div class="nav-actions">
+                <div class="lang-switch-wrapper">
+                    <select id="language-selector" class="lang-select">
+                        <option value="ar">العربية</option>
+                        <option value="en">English</option>
+                        <option value="fr">Français</option>
+                    </select>
+                </div>
+                <a href="#download" class="btn btn-primary btn-sm glow-effect desktop-only"
+                    data-i18n="nav_download">تحميل التطبيق</a>
+
+                <!-- Mobile Menu Button -->
+                <button class="mobile-menu-btn" aria-label="Toggle Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu">
+            <div class="mobile-menu-header">
+                <div class="logo">
+                    <div class="logo-icon"><i class="fas fa-mosque"></i></div>
+                    <span class="mobile-logo-text">أنا مسلم v1.0.7</span>
+                </div>
+                <button class="close-menu-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <nav class="mobile-nav-links">
+                <a href="#features" data-i18n="nav_features">المميزات</a>
+                <a href="#download" data-i18n="nav_download">التحميل والمنصات</a>
+                <a href="#ios-guide" onclick="openIosModal(event)">🍏 دليل تثبيت الآيفون IPA</a>
+                <a href="#faq" data-i18n="nav_faq">الأسئلة</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="hero">
+        <div class="container hero-container">
+            <div class="hero-content reveal-text">
+                <span class="badge fade-in-up" data-i18n="hero_badge">✨ التحديث الجديد v1.0.7 | آيفون IPA، كمبيوتر، أندرويد، وويب!</span>
+                <h1 class="hero-title fade-in-up delay-100" data-i18n="hero_title">رفيقك اليومي <br> <span
+                        class="gradient-text">في العبادة
+                        والحياة</span></h1>
+                <p class="hero-desc fade-in-up delay-200" data-i18n="hero_desc">اكتشف تجربة إسلامية متكاملة تجمع بين الجمال والسهولة. متوفر الآن بنسخة الآيفون (IPA 1.0.7)، الأندرويد، الويندوز للكمبيوتر، وتطبيق الويب المباشر بكامل الميزات والأذان.</p>
+                
+                <!-- Hero Action Buttons Multi-Platform -->
+                <div class="hero-buttons fade-in-up delay-300">
+                    <a href="https://github.com/mustafaalhaj/-/releases" target="_blank"
+                        class="btn btn-gold btn-lg glow-gold" onclick="openIosModal(event)">
+                        <i class="fab fa-apple"></i> <span>نسخة الآيفون (iOS IPA 1.0.7)</span>
+                    </a>
+                    <a href="https://com-alhajmustafaana-anamuslim.ar.uptodown.com/android" target="_blank"
+                        class="btn btn-primary btn-lg glow-effect">
+                        <i class="fab fa-android"></i> <span>تحميل للأندرويد (APK)</span>
+                    </a>
+                    <a href="#download" class="btn btn-outline btn-lg">
+                        <i class="fas fa-desktop"></i> <span>نسخة الكمبيوتر والويب</span>
+                    </a>
+                </div>
+
+                <div class="stats fade-in-up delay-400">
+                    <div class="stat-item">
+                        <span class="stat-num" data-i18n="stat_downloads_num">+100k</span>
+                        <span class="stat-label" data-i18n="stat_downloads_label">تحميل ومستخدم</span>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-num" data-i18n="stat_rating_num">4.9 ★</span>
+                        <span class="stat-label" data-i18n="stat_rating_label">تقييم ممتاز</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image reveal-image">
+                <div class="phone-mockup glass floating-anim">
+                    <div class="screen-content">
+                        <img src="assets/home.jpg"
+                            alt="واجهة تطبيق أنا مسلم الرئيسية تعرض مواقيت الصلاة والوقت المتبقي للصلاة القادمة"
+                            width="320" height="650" style="width:100%; height:100%; object-fit:cover;"
+                            fetchpriority="high">
+                        <div class="phone-glow"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-subtitle" data-i18n="features_subtitle">لماذا أنا مسلم؟</span>
+                <h2 data-i18n="features_title">كل ما تحتاجه في مكان واحد لجميع أجهزتك</h2>
+                <div class="line-shape"></div>
+            </div>
+
+            <div class="features-grid">
+                <!-- Feature 1 -->
+                <div class="feature-card glass reveal delay-100" data-tilt>
+                    <div class="card-glow"></div>
+                    <div class="icon-box gradient-1"><i class="fas fa-book-quran"></i></div>
+                    <h3 data-i18n="feat_quran_title">القرآن الكريم</h3>
+                    <p data-i18n="feat_quran_desc">المصحف كاملاً بخط واضح، مع تلاوات صوتية لأشهر القراء وإمكانية الحفظ والمتابعة.</p>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="feature-card glass reveal delay-200" data-tilt>
+                    <div class="card-glow"></div>
+                    <div class="icon-box gradient-2"><i class="fas fa-clock"></i></div>
+                    <h3 data-i18n="feat_prayer_title">مواقيت وأذان دقيق</h3>
+                    <p data-i18n="feat_prayer_desc">تنبيهات دقيقة للأذان حتى عند قفل الشاشة أو إغلاق التطبيق على الآيفون والأندرويد والكمبيوتر.</p>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="feature-card glass reveal delay-300" data-tilt>
+                    <div class="card-glow"></div>
+                    <div class="icon-box gradient-3"><i class="fas fa-compass"></i></div>
+                    <h3 data-i18n="feat_qibla_title">القبلة الذكية والموقع</h3>
+                    <p data-i18n="feat_qibla_desc">تحديد موقعك الجغرافي باللغة العربية تلقائياً وبوصلة دقيقة 100% لاتجاه القبلة أينما كنت.</p>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="feature-card glass reveal delay-100" data-tilt>
+                    <div class="card-glow"></div>
+                    <div class="icon-box gradient-4"><i class="fas fa-tasbih"></i></div>
+                    <h3 data-i18n="feat_azkar_title">أذكار المسلم</h3>
+                    <p data-i18n="feat_azkar_desc">حصن المسلم كاملاً، أذكار الصباح والمساء، وسبحة إلكترونية سلسة تساعدك على الذكر.</p>
+                </div>
+
+                <!-- Feature 5 -->
+                <div class="feature-card glass reveal delay-200" data-tilt>
+                    <div class="card-glow"></div>
+                    <div class="icon-box gradient-1"><i class="far fa-calendar-check"></i></div>
+                    <h3 data-i18n="feat_calendar_title">التقويم الهجري</h3>
+                    <p data-i18n="feat_calendar_desc">تابع الأيام البيض والمناسبات الدينية مع تقويم هجري وميلادي مدمج في واجهة واحدة.</p>
+                </div>
+
+                <!-- Feature 6 -->
+                <div class="feature-card glass reveal delay-300" data-tilt>
+                    <div class="card-glow"></div>
+                    <div class="icon-box gradient-2"><i class="fas fa-microchip"></i></div>
+                    <h3 data-i18n="feat_ai_title">المساعد الذكي</h3>
+                    <p data-i18n="feat_ai_desc">استفسر عن مواقيت الصيام، اتجاه القبلة، أو ابحث في القرآن باستخدام الذكاء الاصطناعي.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Multi-Platform Section -->
+    <section class="download" id="download">
+        <div class="container">
+            <div class="section-header reveal">
+                <span class="section-subtitle">تغطية شاملة لكل الأجهزة</span>
+                <h2>تحميل التطبيق واستخدامه على جميع المنصات</h2>
+                <p style="opacity:0.8; margin-top:8px;">اختر المنصة التي تناسبك واستمتع بنفس التجربة الروحانية الفاخرة</p>
+                <div class="line-shape"></div>
+            </div>
+
+            <div class="platform-grid">
+                <!-- iOS Card -->
+                <div class="platform-card glass reveal delay-100">
+                    <div class="card-badge gold-badge">التحديث الجديد v1.0.7</div>
+                    <div class="platform-icon ios-icon"><i class="fab fa-apple"></i></div>
+                    <h3>نسخة الآيفون (iOS IPA)</h3>
+                    <p>نسخة مخصصة لأجهزة iPhone & iPad بصيغة <code>.ipa</code> تدعم الأذان في الخلفية، الشاشة المقفلة، والإشعارات.</p>
+                    <div class="card-actions">
+                        <button class="btn btn-gold btn-full glow-gold" onclick="openIosModal(event)">
+                            <i class="fas fa-download"></i> <span>تنزيل IPA + طريقة التثبيت</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Android Card -->
+                <div class="platform-card glass reveal delay-200">
+                    <div class="card-badge green-badge">الإصدار 1.0.7</div>
+                    <div class="platform-icon android-icon"><i class="fab fa-android"></i></div>
+                    <h3>نسخة الأندرويد (APK)</h3>
+                    <p>ملف APK مجاني وبسيط التثبيت لجميع هواتف سامسونج، شاومي، هواوي وبقية أجهزة الأندرويد.</p>
+                    <div class="card-actions">
+                        <a href="https://com-alhajmustafaana-anamuslim.ar.uptodown.com/android" target="_blank" class="btn btn-primary btn-full glow-effect">
+                            <i class="fas fa-download"></i> <span>تحميل ملف APK مجاناً</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Windows Desktop Card -->
+                <div class="platform-card glass reveal delay-300">
+                    <div class="card-badge blue-badge">Windows EXE</div>
+                    <div class="platform-icon windows-icon"><i class="fab fa-windows"></i></div>
+                    <h3>تطبيق الكمبيوتر (Windows)</h3>
+                    <p>تطبيق مكتبي كامل ونظيف لنظام الويندوز مع تشغيل تلقائي للأذان وتحديد موقعك باللغة العربية.</p>
+                    <div class="card-actions">
+                        <a href="https://github.com/mustafaalhaj/-/releases" target="_blank" class="btn btn-outline btn-full">
+                            <i class="fas fa-desktop"></i> <span>تحميل للويندوز (exe / zip)</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Web App Card -->
+                <div class="platform-card glass reveal delay-400">
+                    <div class="card-badge purple-badge">PWA Web</div>
+                    <div class="platform-icon web-icon"><i class="fas fa-globe"></i></div>
+                    <h3>تطبيق الويب المباشر</h3>
+                    <p>استخدم التطبيق فورياً داخل أي متصفح مع تفعيل إشعارات الأذان الدائمة حتى بعد إغلاق المتصفح.</p>
+                    <div class="card-actions">
+                        <a href="/web/index.html" target="_blank" class="btn btn-outline btn-full">
+                            <i class="fas fa-external-link-alt"></i> <span>فتح تطبيق الويب المباشر</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq" id="faq">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 data-i18n="faq_title">الأسئلة الشائعة</h2>
+            </div>
+            <div class="accordion">
+                <!-- FAQ Item iOS IPA Guide -->
+                <div class="accordion-item glass reveal delay-100">
+                    <button class="accordion-header active">
+                        <span>🍏 كيف أقوم بتثبيت نسخة الآيفون (IPA 1.0.7) على هاتفي؟</span>
+                        <span class="icon-wrapper"><i class="fas fa-plus"></i></span>
+                    </button>
+                    <div class="accordion-content" style="max-height: 500px; opacity: 1;">
+                        <div class="content-inner">
+                            نظراً لأن النسخة المحدثة بصيغة <code>.ipa</code> وغير متوفرة على App Store حالياً، يمكنك تثبيتها بسهولة وبشكل آمن تماماً عبر كمبيوتر ويندوز أو ماك باستخدام برنامج <strong>Sideloadly</strong> المجاني بحساب Apple الخاص بك خلال 3 دقائق. 
+                            <br><br>
+                            <button class="btn btn-gold btn-sm" onclick="openIosModal(event)">اضغط هنا لمعاينة الشرح التفصيلي بالخطوات</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Item 1 -->
+                <div class="accordion-item glass reveal delay-200">
+                    <button class="accordion-header">
+                        <span data-i18n="faq_q1">هل التطبيق يعمل بدون إنترنت؟</span>
+                        <span class="icon-wrapper"><i class="fas fa-plus"></i></span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="content-inner" data-i18n="faq_a1">
+                            نعم، معظم الميزات الأساسية مثل قراءة القرآن، الأذكار، والمسبحة تعمل بكفاءة تامة دون الحاجة لاتصال بالإنترنت.
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ Item 2 -->
+                <div class="accordion-item glass reveal delay-300">
+                    <button class="accordion-header">
+                        <span data-i18n="faq_q2">هل التطبيق مجاني؟</span>
+                        <span class="icon-wrapper"><i class="fas fa-plus"></i></span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="content-inner" data-i18n="faq_a2">
+                            التطبيق مجاني 100% لوجه الله تعالى، ولا يحتوي على أي إعلانات مزعجة تعكر صفو العبادة.
+                        </div>
+                    </div>
+                </div>
+                <!-- FAQ Item 3 -->
+                <div class="accordion-item glass reveal delay-400">
+                    <button class="accordion-header">
+                        <span data-i18n="faq_q3">كيف أحدد اتجاه القبلة بدقة؟</span>
+                        <span class="icon-wrapper"><i class="fas fa-plus"></i></span>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="content-inner" data-i18n="faq_a3">
+                            تأكد من تفعيل خدمة الموقع (GPS) في هاتفك، ثم قم بمعايرة البوصلة بتحريك الهاتف على شكل رقم 8 للحصول على أدق نتيجة.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="#" data-i18n="footer_privacy">سياسة الخصوصية</a>
+                <span class="separator">|</span>
+                <a href="mailto:contact@anamuslim.app" data-i18n="footer_contact">تواصل معنا</a>
+                <span class="separator">|</span>
+                <a href="https://www.instagram.com/mustafa.alhaj.mustafa/?igsh=bmE4dzZwbzE3ZXln" target="_blank"
+                    rel="noopener noreferrer">
+                    <span data-i18n="footer_instagram">تابعنا على إنستغرام</span> <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+            <p class="copyright" data-i18n="footer_copyright">© 2026 – تطبيق أنا مسلم. جميع الحقوق محفوظة. Mustafa Alhaj Mustafa</p>
+            <p class="disclaimer" data-i18n="footer_disclaimer">هذا التطبيق لا يقدّم فتاوى شخصية، ويُنصح دائماً بالرجوع إلى أهل العلم.</p>
+        </div>
+    </footer>
+
+    <!-- iOS IPA Installation Guide Modal -->
+    <div id="ios-modal" class="modal-overlay">
+        <div class="modal-card glass">
+            <button class="modal-close" onclick="closeIosModal()">&times;</button>
+            <div class="modal-header">
+                <div class="modal-icon"><i class="fab fa-apple"></i></div>
+                <div>
+                    <h2>دليل تثبيت تطبيق "أنا مسلم" على الآيفون (iOS IPA v1.0.7)</h2>
+                    <p class="modal-subtitle">خطوات بسيطة وسريعة لتثبيت ملف الـ IPA على هاتف الآيفون أو الآيباد</p>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="alert-box gold-alert">
+                    <i class="fas fa-info-circle"></i>
+                    <span>نظراً لأن النسخة المحدثة v1.0.7 غير متوفرة على App Store حالياً، يمكنك تثبيتها بأمان على هاتفك خلال 3 دقائق باستخدام برنامج <strong>Sideloadly</strong> وجهاز الكمبيوتر.</span>
+                </div>
+
+                <!-- Steps Container -->
+                <div class="steps-list">
+                    <!-- Step 1 -->
+                    <div class="step-card">
+                        <div class="step-num">1</div>
+                        <div class="step-details">
+                            <h3>تنزيل ملف التطبيق (Runner.ipa)</h3>
+                            <p>قم بتنزيل ملف الـ IPA الخاص بتطبيق "أنا مسلم" الإصدار 1.0.7 وحفظه على جهاز الكمبيوتر الخاص بك.</p>
+                            <a href="https://github.com/mustafaalhaj/-/releases" target="_blank" class="btn btn-gold btn-sm margin-top-sm">
+                                <i class="fas fa-download"></i> <span>تنزيل ملف Runner.ipa v1.0.7</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="step-card">
+                        <div class="step-num">2</div>
+                        <div class="step-details">
+                            <h3>تنزيل وتجهيز برامج Apple على الكمبيوتر (iTunes & iCloud)</h3>
+                            <p>تأكد من تنزيل برنامج <strong>iTunes</strong> وبرنامج <strong>iCloud</strong> وتثبيتهما على نظام Windows من موقع Apple الرسمي أو متجر Microsoft، ثم سجل دخولك بـ Apple ID الخاص بك.</p>
+                            <div class="link-buttons">
+                                <a href="https://www.apple.com/itunes/" target="_blank" class="btn btn-outline btn-xs"><i class="fab fa-apple"></i> تنزيل iTunes</a>
+                                <a href="https://support.apple.com/en-us/102604" target="_blank" class="btn btn-outline btn-xs"><i class="fas fa-cloud"></i> تنزيل iCloud</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="step-card">
+                        <div class="step-num">3</div>
+                        <div class="step-details">
+                            <h3>تنزيل برنامج Sideloadly على الكمبيوتر</h3>
+                            <p>قم بتنزيل برنامج التثبيت <strong>Sideloadly</strong> الآمن والمجاني من موقعه الرسمي وتثبيته على جهاز الكمبيوتر (ويندوز أو ماك).</p>
+                            <a href="https://sideloadly.io" target="_blank" class="btn btn-primary btn-sm margin-top-sm">
+                                <i class="fas fa-external-link-alt"></i> <span>الموقع الرسمي لبرنامج Sideloadly.io</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="step-card">
+                        <div class="step-num">4</div>
+                        <div class="step-details">
+                            <h3>توصيل الآيفون وتثبيت الملف</h3>
+                            <p>1. قم بتوصيل هاتف الآيفون بالكمبيوتر باستخدام كابل USB (واضغط "وثوق" على الآيفون إذا طلب منك ذلك).<br>
+                               2. افتح برنامج <strong>Sideloadly</strong> واكتب إيميل Apple ID الخاص بك في الحقل المخصص.<br>
+                               3. قم بسحب وإسقاط ملف <code>Runner.ipa</code> داخل نافذة برنامج Sideloadly.<br>
+                               4. اضغط على زر <strong>Start</strong> وانتظر حتى تظهر كلمة <strong>DONE</strong> للتأكيد على تثبيت التطبيق على آيفونك!
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="step-card">
+                        <div class="step-num">5</div>
+                        <div class="step-details">
+                            <h3>توثيق الشهادة على الآيفون (الخطوة الأخيرة)</h3>
+                            <p>افتح هاتف الآيفون واذهب إلى:<br>
+                               <code>الإعدادات (Settings) 👈 عام (General) 👈 إدارة الجهاز والـ VPN (VPN & Device Management)</code><br>
+                               اضغط على إيميل Apple ID الخاص بك، ثم اضغط <strong>"الوثوق في (إيميلك)"</strong> (Trust).<br>
+                               🎉 <strong>مبروك!</strong> افتح تطبيق "أنا مسلم" واستمتع بتجربة الأذان والقرآن الكاملة!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-outline btn-sm" onclick="closeIosModal()">إغلاق النافذة</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script src="script.js"></script>
+</body>
+
+</html>
