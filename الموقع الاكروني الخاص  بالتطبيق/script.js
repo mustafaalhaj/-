@@ -571,6 +571,13 @@ function closeIosModal() {
     }
 }
 
+function closeAnnouncementBar() {
+    const bar = document.getElementById('announcement-bar');
+    if (bar) {
+        bar.style.display = 'none';
+    }
+}
+
 // Close on outside click & ESC key
 document.addEventListener('click', (e) => {
     const modal = document.getElementById('ios-modal');
