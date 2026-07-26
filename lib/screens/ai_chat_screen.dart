@@ -30,14 +30,24 @@ class _AIChatScreenState extends State<AIChatScreen>
     )..repeat();
 
     _loadConversation();
-    _messages.add(
-      Message(
-        text:
-            "السلام عليكم ورحمة الله وبركاته! 🌙\n\nأنا مساعدك الذكي المتخصص في الشؤون الإسلامية.\n\nيمكنني مساعدتك في:\n• البحث في القرآن والحديث\n• الإجابة عن أسئلة الفقه والعبادات\n• شرح الأحكام الشرعية\n• تقديم الأدعية والأذكار\n\nاسألني عن أي شيء! 💚",
-        isUser: false,
-        type: AIResponseType.unknown,
-      ),
-    );
+    _addWelcomeMessage();
+  }
+
+  void _loadConversation() async {
+    await _aiService.loadConversation();
+  }
+
+  void _addWelcomeMessage() {
+    if (_messages.isEmpty) {
+      _messages.add(
+        Message(
+          text:
+              "السلام عليكم ورحمة الله وبركاته! 🌙\n\nأنا مساعدك الذكي المتخصص في الشؤون الإسلامية.\n\nيمكنني مساعدتك في:\n• البحث في القرآن والحديث\n• الإجابة عن أسئلة الفقه والعبادات\n• شرح الأحكام الشرعية\n• تقديم الأدعية والأذكار\n\nاسألني عن أي شيء! 💚",
+          isUser: false,
+          type: AIResponseType.unknown,
+        ),
+      );
+    }
   }
 
   void _sendMessage(String text) async {
