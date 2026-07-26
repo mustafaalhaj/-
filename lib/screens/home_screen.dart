@@ -77,7 +77,6 @@ class _HomeScreenState extends State<HomeScreen> {
     final layoutProvider = Provider.of<HomeLayoutProvider>(context);
 
     return Scaffold(
-      backgroundColor: Colors.transparent, // ✅ ضروري على iOS لمنع الخلفية الرمادية
       extendBody: true,
       extendBodyBehindAppBar: true,
       body: GlassBackground(
