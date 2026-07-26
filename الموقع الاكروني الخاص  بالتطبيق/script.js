@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
             top_announcement_text: "🎉 تم إطلاق التحديث 1.0.7! متوفر الآن للآيفون (IPA)، الأندرويد، الكمبيوتر (Windows)، وموقع الويب المباشر بكامل الميزات والأذان.",
             btn_top_ios: "نسخة الآيفون IPA (طريقة التثبيت)",
             btn_top_platforms: "جميع المنصات",
+            btn_pdf_doc: "📄 كتيّب ودليل الميزات الشامل (PDF 3 لغات)",
 
             hero_badge: "✨ التحديث الجديد v1.0.7 | آيفون IPA، كمبيوتر، أندرويد، وويب!",
             hero_title: "رفيقك اليومي \n في العبادة والحياة",
@@ -122,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             top_announcement_text: "🎉 Update 1.0.7 Released! Now available for iPhone (IPA), Android (APK), Windows PC, and Live Web App with complete Adhan support.",
             btn_top_ios: "iPhone IPA (Install Guide)",
             btn_top_platforms: "All Platforms",
+            btn_pdf_doc: "📄 Master Features Manual (PDF 3 Languages)",
 
             hero_badge: "✨ New Update v1.0.7 | iPhone IPA, Windows PC, Android & Web!",
             hero_title: "Your Daily Companion \n in Worship & Life",
@@ -229,6 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
             top_announcement_text: "🎉 Mise à jour 1.0.7 lancée ! Disponible pour iPhone (IPA), Android, Windows PC et Web PWA.",
             btn_top_ios: "Version iPhone IPA (Guide)",
             btn_top_platforms: "Toutes les Plateformes",
+            btn_pdf_doc: "📄 Manuel des Fonctionnalités (PDF 3 Langues)",
 
             hero_badge: "✨ Nouveauté v1.0.7 | iPhone IPA, PC Windows, Android & Web !",
             hero_title: "Votre Compagnon \n Quotidien",
