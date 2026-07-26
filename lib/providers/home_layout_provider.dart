@@ -41,11 +41,11 @@ class HomeWidgetItem {
 
 class HomeLayoutProvider with ChangeNotifier {
   List<HomeWidgetItem> _layout = [
-    HomeWidgetItem(type: HomeWidgetType.header, order: 0),
-    HomeWidgetItem(type: HomeWidgetType.nextPrayer, order: 1),
-    HomeWidgetItem(type: HomeWidgetType.quickActions, order: 2),
-    HomeWidgetItem(type: HomeWidgetType.hijriDate, order: 3),
-    HomeWidgetItem(type: HomeWidgetType.dailyVerse, order: 4),
+    HomeWidgetItem(type: HomeWidgetType.header, order: 0, isVisible: true),
+    HomeWidgetItem(type: HomeWidgetType.nextPrayer, order: 1, isVisible: true),
+    HomeWidgetItem(type: HomeWidgetType.quickActions, order: 2, isVisible: true),
+    HomeWidgetItem(type: HomeWidgetType.hijriDate, order: 3, isVisible: true),
+    HomeWidgetItem(type: HomeWidgetType.dailyVerse, order: 4, isVisible: true),
   ];
   bool _isLoading = false;
 
@@ -54,9 +54,6 @@ class HomeLayoutProvider with ChangeNotifier {
   }
 
   List<HomeWidgetItem> get activeWidgets {
-    if (_layout.isEmpty) {
-      _resetToDefault();
-    }
     final active = _layout.where((item) => item.isVisible).toList();
     if (active.isEmpty) {
       _resetToDefault();
@@ -75,21 +72,26 @@ class HomeLayoutProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
 
   Future<void> _loadLayout() async {
-    final prefs = await SharedPreferences.getInstance();
-    final String? savedLayout = prefs.getString('home_layout');
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final String? savedLayout = prefs.getString('home_layout');
 
-    if (savedLayout != null) {
-      try {
+      if (savedLayout != null) {
         final List<dynamic> decoded = json.decode(savedLayout);
-        _layout = decoded.map((item) => HomeWidgetItem.fromJson(item)).toList();
-
-        // Check for missing new widget types and add them
+        final loaded = decoded.map((item) => HomeWidgetItem.fromJson(item)).toList();
+        if (loaded.isNotEmpty) {
+          _layout = loaded;
+        }
         _ensureAllTypesExist();
-      } catch (e) {
-        debugPrint('Error loading layout: $e');
+      } else {
         _resetToDefault();
       }
-    } else {
+    } catch (e) {
+      debugPrint('Error loading layout: $e');
+      _resetToDefault();
+    }
+
+    if (_layout.where((item) => item.isVisible).isEmpty) {
       _resetToDefault();
     }
 
@@ -105,7 +107,7 @@ class HomeLayoutProvider with ChangeNotifier {
           HomeWidgetItem(
             type: type,
             order: _layout.length,
-            isVisible: true, // Enable all new widgets by default
+            isVisible: true,
           ),
         );
         changed = true;
@@ -116,15 +118,11 @@ class HomeLayoutProvider with ChangeNotifier {
 
   void _resetToDefault() {
     _layout = [
-      HomeWidgetItem(type: HomeWidgetType.header, order: 0),
-      HomeWidgetItem(type: HomeWidgetType.nextPrayer, order: 1),
-      HomeWidgetItem(type: HomeWidgetType.quickActions, order: 2),
+      HomeWidgetItem(type: HomeWidgetType.header, order: 0, isVisible: true),
+      HomeWidgetItem(type: HomeWidgetType.nextPrayer, order: 1, isVisible: true),
+      HomeWidgetItem(type: HomeWidgetType.quickActions, order: 2, isVisible: true),
       HomeWidgetItem(type: HomeWidgetType.hijriDate, order: 3, isVisible: true),
-      HomeWidgetItem(
-        type: HomeWidgetType.dailyVerse,
-        order: 4,
-        isVisible: true,
-      ),
+      HomeWidgetItem(type: HomeWidgetType.dailyVerse, order: 4, isVisible: true),
     ];
     _saveLayout();
   }
@@ -142,28 +140,27 @@ class HomeLayoutProvider with ChangeNotifier {
     if (oldIndex < newIndex) {
       newIndex -= 1;
     }
-    // We are reordering the SORTED list. We need to reflect this in the underlying list orders.
-    // Actually, simply manipulating the sorted list and reassigning 'order' field is easier.
-
     final sortedList = allWidgets;
     final item = sortedList.removeAt(oldIndex);
     sortedList.insert(newIndex, item);
 
-    // Update order indices
     for (int i = 0; i < sortedList.length; i++) {
       sortedList[i].order = i;
     }
 
-    _layout =
-        sortedList; // This might lose original unsorted reference structure but order is what matters.
+    _layout = sortedList;
     await _saveLayout();
     notifyListeners();
   }
 
   Future<void> _saveLayout() async {
-    final prefs = await SharedPreferences.getInstance();
-    final String encoded = json.encode(_layout.map((e) => e.toJson()).toList());
-    await prefs.setString('home_layout', encoded);
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final String encoded = json.encode(_layout.map((e) => e.toJson()).toList());
+      await prefs.setString('home_layout', encoded);
+    } catch (e) {
+      debugPrint('Error saving layout: $e');
+    }
   }
 
   Future<void> resetLayout() async {
