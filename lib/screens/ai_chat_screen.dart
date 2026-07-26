@@ -30,32 +30,14 @@ class _AIChatScreenState extends State<AIChatScreen>
     )..repeat();
 
     _loadConversation();
-    _addWelcomeMessage();
-  }
-
-  @override
-  void dispose() {
-    _typingAnimationController.dispose();
-    _controller.dispose();
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  void _loadConversation() async {
-    await _aiService.loadConversation();
-  }
-
-  void _addWelcomeMessage() {
-    setState(() {
-      _messages.add(
-        Message(
-          text:
-              "السلام عليكم ورحمة الله وبركاته! 🌙\n\nأنا مساعدك الذكي المتخصص في الشؤون الإسلامية.\n\nيمكنني مساعدتك في:\n• البحث في القرآن والحديث\n• الإجابة عن أسئلة الفقه والعبادات\n• شرح الأحكام الشرعية\n• تقديم الأدعية والأذكار\n\nاسألني عن أي شيء! 💚",
-          isUser: false,
-          type: AIResponseType.unknown,
-        ),
-      );
-    });
+    _messages.add(
+      Message(
+        text:
+            "السلام عليكم ورحمة الله وبركاته! 🌙\n\nأنا مساعدك الذكي المتخصص في الشؤون الإسلامية.\n\nيمكنني مساعدتك في:\n• البحث في القرآن والحديث\n• الإجابة عن أسئلة الفقه والعبادات\n• شرح الأحكام الشرعية\n• تقديم الأدعية والأذكار\n\nاسألني عن أي شيء! 💚",
+        isUser: false,
+        type: AIResponseType.unknown,
+      ),
+    );
   }
 
   void _sendMessage(String text) async {

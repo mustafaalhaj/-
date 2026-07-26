@@ -33,8 +33,12 @@ class _QiblaScreenState extends State<QiblaScreen>
   @override
   void initState() {
     super.initState();
-    _checkDeviceSensors();
-    _initLocation();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _checkDeviceSensors();
+        _initLocation();
+      }
+    });
   }
 
   Future<void> _checkDeviceSensors() async {

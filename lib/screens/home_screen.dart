@@ -24,16 +24,19 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _updateTime();
+    _currentTime = intl.DateFormat('HH:mm').format(DateTime.now());
+    _scheduleTimeUpdate();
   }
 
-  void _updateTime() {
-    if (mounted) {
-      setState(() {
-        _currentTime = intl.DateFormat('HH:mm').format(DateTime.now());
-      });
-      Future.delayed(const Duration(minutes: 1), _updateTime);
-    }
+  void _scheduleTimeUpdate() {
+    Future.delayed(const Duration(minutes: 1), () {
+      if (mounted) {
+        setState(() {
+          _currentTime = intl.DateFormat('HH:mm').format(DateTime.now());
+        });
+        _scheduleTimeUpdate();
+      }
+    });
   }
 
   String _getTimeRemaining(DateTime prayerTime) {

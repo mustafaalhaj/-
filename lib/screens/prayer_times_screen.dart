@@ -28,20 +28,16 @@ class _PrayerTimesScreenState extends State<PrayerTimesScreen> {
   void initState() {
     super.initState();
     HijriCalendar.setLocal('ar');
-    _updateHijriDate();
+    final today = HijriCalendar.now();
+    _hijriDate = today.toFormat('dd MMMM yyyy');
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<PrayerTimesProvider>().fetchPrayerTimes();
+      if (mounted) {
+        context.read<PrayerTimesProvider>().fetchPrayerTimes();
+      }
     });
 
     _startTimer();
-  }
-
-  void _updateHijriDate() {
-    final today = HijriCalendar.now();
-    setState(() {
-      _hijriDate = today.toFormat('dd MMMM yyyy');
-    });
   }
 
   @override

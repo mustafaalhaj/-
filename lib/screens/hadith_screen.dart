@@ -32,7 +32,11 @@ class _HadithScreenState extends State<HadithScreen>
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeIn),
     );
-    _loadDailyHadith();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _loadDailyHadith();
+      }
+    });
   }
 
   @override

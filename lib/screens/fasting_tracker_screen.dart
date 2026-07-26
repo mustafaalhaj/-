@@ -24,9 +24,12 @@ class _FastingTrackerScreenState extends State<FastingTrackerScreen> {
   void initState() {
     super.initState();
     HijriCalendar.setLocal('ar');
-    _hijriNow = HijriCalendar.now();
-    _checkIfFastingDay();
-    _startTimer();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _checkIfFastingDay();
+        _startTimer();
+      }
+    });
   }
 
   @override
