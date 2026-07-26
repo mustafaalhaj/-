@@ -40,8 +40,14 @@ class HomeWidgetItem {
 }
 
 class HomeLayoutProvider with ChangeNotifier {
-  List<HomeWidgetItem> _layout = [];
-  bool _isLoading = true;
+  List<HomeWidgetItem> _layout = [
+    HomeWidgetItem(type: HomeWidgetType.header, order: 0),
+    HomeWidgetItem(type: HomeWidgetType.nextPrayer, order: 1),
+    HomeWidgetItem(type: HomeWidgetType.quickActions, order: 2),
+    HomeWidgetItem(type: HomeWidgetType.dailyVerse, order: 3),
+    HomeWidgetItem(type: HomeWidgetType.hijriDate, order: 4),
+  ];
+  bool _isLoading = false;
 
   HomeLayoutProvider() {
     _loadLayout();

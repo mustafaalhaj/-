@@ -259,17 +259,10 @@ class _MainScreenState extends State<MainScreen> {
       extendBody: true, // IMPORTANT: Allows body to go behind bottom nav
       body: Stack(
         children: [
-          // 1. Main Content with RepaintBoundary for better performance
-          RepaintBoundary(
-            child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 200),
-              switchInCurve: Curves.easeOutCubic,
-              switchOutCurve: Curves.easeInCubic,
-              transitionBuilder: (Widget child, Animation<double> animation) {
-                return FadeTransition(opacity: animation, child: child);
-              },
-              child: _screens[_selectedIndex],
-            ),
+          // 1. Main Content with IndexedStack for instant tab navigation
+          IndexedStack(
+            index: _selectedIndex,
+            children: _screens,
           ),
 
           // 2. Floating Glass Bottom Nav with RepaintBoundary
