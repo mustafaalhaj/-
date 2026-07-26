@@ -6,7 +6,7 @@
     "background_color": "#0F172A",
     "theme_color": "#1E293B",
     "description": "تطبيق أنا مسلم الشامل للأذكار والقرآن الكريم ومواقيت الصلاة والتقويم الهجري",
-    "orientation": "portrait-primary",
+    "orientation": "any",
     "prefer_related_applications": false,
     "icons": [
         {

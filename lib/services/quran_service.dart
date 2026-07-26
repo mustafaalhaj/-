@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../models/surah.dart';
 
 class QuranService {
-  static const String _baseUrl = 'http://api.alquran.cloud/v1';
+  static const String _baseUrl = 'https://api.alquran.cloud/v1';
 
   Future<List<Surah>> getSurahs() async {
     try {
