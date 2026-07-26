@@ -114,8 +114,8 @@ class _HomeScreenState extends State<HomeScreen> {
       slivers.add(_buildHeaderSliver());
       slivers.add(_buildNextPrayerSliver());
       slivers.add(_buildQuickActionsSliver(primaryColor));
-      slivers.add(_buildDailyVerseSliver());
       slivers.add(_buildHijriDateSliver());
+      slivers.add(_buildDailyVerseSliver());
     } else {
       for (var item in activeItems) {
         switch (item.type) {
