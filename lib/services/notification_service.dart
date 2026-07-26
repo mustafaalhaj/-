@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tz;
+import 'web_notification_helper.dart';
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
@@ -69,7 +70,17 @@ class NotificationService {
   }
 
   Future<void> requestPermissions() async {
-    // ✅ iOS: طلب صلاحيات الإشعارات الكاملة
+    // ✅ 1. Web: طلب إذن إشعارات متصفح الويب (Browser Notifications Prompt)
+    if (kIsWeb) {
+      try {
+        await requestWebNotificationPermission();
+      } catch (e) {
+        debugPrint('Web notification permission error: $e');
+      }
+      return;
+    }
+
+    // ✅ 2. iOS: طلب صلاحيات الإشعارات الكاملة
     final iosImplementation = flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
           IOSFlutterLocalNotificationsPlugin
@@ -82,7 +93,7 @@ class NotificationService {
       );
     }
 
-    // Android
+    // ✅ 3. Android: طلب إذن الإشعارات للموبايل
     final androidImplementation = flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
           AndroidFlutterLocalNotificationsPlugin
@@ -99,6 +110,17 @@ class NotificationService {
     DateTime scheduledTime,
   ) async {
     try {
+      if (kIsWeb) {
+        final now = DateTime.now();
+        final diff = scheduledTime.difference(now);
+        if (!diff.isNegative) {
+          Future.delayed(diff, () {
+            showWebNotification(title, body);
+          });
+        }
+        return;
+      }
+
       await flutterLocalNotificationsPlugin.zonedSchedule(
         id,
         title,
@@ -115,7 +137,6 @@ class NotificationService {
             audioAttributesUsage: AudioAttributesUsage.notificationRingtone,
             visibility: NotificationVisibility.public,
           ),
-          // ✅ iOS: تشغيل صوت الأذان الأصلي حتى والتطبيق مغلق أو الشاشة مقفلة
           iOS: DarwinNotificationDetails(
             sound: 'adhan.caf',
             presentAlert: true,
