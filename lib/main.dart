@@ -256,6 +256,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.transparent, // ✅ منع الخلفية الرمادية على iOS
       extendBody: true, // IMPORTANT: Allows body to go behind bottom nav
       body: Stack(
         children: [
