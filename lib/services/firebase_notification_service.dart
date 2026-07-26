@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -50,7 +51,17 @@ class FirebaseNotificationService {
 
   FirebaseNotificationService._internal();
 
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  // ✅ آمن ولطيف: لا يفترض أن Firebase متصل دائماً
+  FirebaseMessaging? get _messaging {
+    try {
+      if (Firebase.apps.isNotEmpty) {
+        return FirebaseMessaging.instance;
+      }
+    } catch (e) {
+      debugPrint('FirebaseMessaging not available: $e');
+    }
+    return null;
+  }
 
   // مفتاح التخزين
   static const String _storageKey = 'saved_notifications';
@@ -71,28 +82,39 @@ class FirebaseNotificationService {
     // تحديث العداد عند البدء فوراً (لا ينتظر الإذن)
     await _updateUnreadCount();
 
-    // ✅ تسجيل المستمعين فوراً بدون انتظار الإذن
-    // حتى لا يتوقف عرض التطبيق عند أول فتح
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      _handleForegroundMessage(message);
-    });
+    final messaging = _messaging;
+    if (messaging == null) {
+      debugPrint('Firebase messaging is null or app not initialized.');
+      return;
+    }
 
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      debugPrint('Notification Message opened app: ${message.data}');
-      _handleNotificationClick(message);
-    });
+    try {
+      // ✅ تسجيل المستمعين فوراً بدون انتظار الإذن
+      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+        _handleForegroundMessage(message);
+      });
 
-    // ✅ طلب الإذن في الخلفية (لا يعلّق الـ UI على iOS)
-    _requestPermissionsInBackground();
+      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+        debugPrint('Notification Message opened app: ${message.data}');
+        _handleNotificationClick(message);
+      });
+
+      // ✅ طلب الإذن في الخلفية (لا يعلّق الـ UI على iOS)
+      _requestPermissionsInBackground();
+    } catch (e) {
+      debugPrint('Error initializing FCM listeners: $e');
+    }
   }
 
   /// طلب الإذن في الخلفية حتى لا يعلّق التطبيق عند الفتح
   void _requestPermissionsInBackground() {
     Future.microtask(() async {
       try {
+        final messaging = _messaging;
+        if (messaging == null) return;
+
         // 1. طلب الإذن بشكل غير متزامن
-        NotificationSettings settings =
-            await _firebaseMessaging.requestPermission(
+        NotificationSettings settings = await messaging.requestPermission(
           alert: true,
           badge: true,
           sound: true,
@@ -107,9 +129,9 @@ class FirebaseNotificationService {
 
         // 2. الحصول على التوكين
         try {
-          _fcmToken = await _firebaseMessaging.getToken();
+          _fcmToken = await messaging.getToken();
           debugPrint('FCM Token: $_fcmToken');
-          _firebaseMessaging.onTokenRefresh.listen((newToken) {
+          messaging.onTokenRefresh.listen((newToken) {
             _fcmToken = newToken;
           });
         } catch (e) {
@@ -127,10 +149,13 @@ class FirebaseNotificationService {
   // الاشتراك في المواضيع الافتراضية
   Future<void> _subscribeToDefaultTopics() async {
     try {
-      await _firebaseMessaging.subscribeToTopic('topic_ar_daily_quran');
-      await _firebaseMessaging.subscribeToTopic('topic_ar_daily_hadith');
-      await _firebaseMessaging.subscribeToTopic('topic_ar_daily_dhikr');
-      await _firebaseMessaging.subscribeToTopic('topic_announcements');
+      final messaging = _messaging;
+      if (messaging == null) return;
+
+      await messaging.subscribeToTopic('topic_ar_daily_quran');
+      await messaging.subscribeToTopic('topic_ar_daily_hadith');
+      await messaging.subscribeToTopic('topic_ar_daily_dhikr');
+      await messaging.subscribeToTopic('topic_announcements');
     } catch (e) {
       debugPrint('Error subscribing to default topics: $e');
     }
@@ -143,91 +168,116 @@ class FirebaseNotificationService {
     String? deepLink,
     String? category,
   }) async {
-    final prefs = await SharedPreferences.getInstance();
-    List<String> savedList = prefs.getStringList(_storageKey) ?? [];
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      List<String> savedList = prefs.getStringList(_storageKey) ?? [];
 
-    final newMessage = NotificationMessage(
-      title: title,
-      body: body,
-      date: DateTime.now(),
-      deepLink: deepLink,
-      category: category,
-    );
-
-    savedList.add(jsonEncode(newMessage.toJson()));
-    await prefs.setStringList(_storageKey, savedList);
-
-    // تحديث العداد
-    await _updateUnreadCount();
-  }
-
-  // جلب كل الإشعارات المحفوظة
-  Future<List<NotificationMessage>> getSavedNotifications() async {
-    final prefs = await SharedPreferences.getInstance();
-    List<String> savedList = prefs.getStringList(_storageKey) ?? [];
-
-    return savedList
-        .map((item) => NotificationMessage.fromJson(jsonDecode(item)))
-        .toList()
-        .reversed // الأحدث أولاً
-        .toList();
-  }
-
-  // تحديث عداد غير المقروء
-  Future<void> _updateUnreadCount() async {
-    final msgs = await getSavedNotifications();
-    _unreadCountController.value = msgs.where((m) => !m.isRead).length;
-  }
-
-  // تعليم الكل كمقروء
-  Future<void> markAllAsRead() async {
-    final prefs = await SharedPreferences.getInstance();
-    List<String> savedList = prefs.getStringList(_storageKey) ?? [];
-
-    List<String> updatedList = savedList.map((item) {
-      final json = jsonDecode(item);
-      json['isRead'] = true;
-      return jsonEncode(json);
-    }).toList();
-
-    await prefs.setStringList(_storageKey, updatedList);
-    await _updateUnreadCount();
-  }
-
-  // مسح الإشعارات
-  Future<void> clearNotifications() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove(_storageKey);
-    await _updateUnreadCount();
-  }
-
-  void _handleForegroundMessage(RemoteMessage message) {
-    if (message.notification != null) {
-      final title = message.notification!.title ?? 'تنبيه';
-      final body = message.notification!.body ?? '';
-      final deepLink = message.data['deep_link'] ?? message.data['route'];
-      final category = message.data['category'];
-
-      // 1. عرض الإشعار محلياً (باستخدام خدمة الإشعارات الموجودة لدينا)
-      NotificationService().schedulePrayerNotification(
-        DateTime.now().millisecond, // ID عشوائي
-        title,
-        body,
-        DateTime.now().add(const Duration(seconds: 1)), // جدولة فورية
+      final newMessage = NotificationMessage(
+        title: title,
+        body: body,
+        date: DateTime.now(),
+        isRead: false,
+        deepLink: deepLink,
+        category: category,
       );
 
-      // 2. حفظ الإشعار في الأرشيف
-      _saveNotification(title, body, deepLink: deepLink, category: category);
+      savedList.insert(0, json.encode(newMessage.toJson()));
+      await prefs.setStringList(_storageKey, savedList);
+      await _updateUnreadCount();
+    } catch (e) {
+      debugPrint('Error saving notification: $e');
     }
   }
 
+  // تحديث عدد الرسائل غير المقروءة
+  Future<void> _updateUnreadCount() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      List<String> savedList = prefs.getStringList(_storageKey) ?? [];
+      int unread = 0;
+      for (String item in savedList) {
+        try {
+          final map = json.decode(item);
+          if (map['isRead'] == false) unread++;
+        } catch (e) {
+          // ignore broken JSON
+        }
+      }
+      _unreadCountController.value = unread;
+    } catch (e) {
+      debugPrint('Error updating unread count: $e');
+    }
+  }
+
+  // جلب جميع الإشعارات المحفوظة
+  Future<List<NotificationMessage>> getSavedNotifications() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      List<String> savedList = prefs.getStringList(_storageKey) ?? [];
+      return savedList
+          .map((item) => NotificationMessage.fromJson(json.decode(item)))
+          .toList();
+    } catch (e) {
+      return [];
+    }
+  }
+
+  // تحديد الكل كـ "تمت القراءة"
+  Future<void> markAllAsRead() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      List<String> savedList = prefs.getStringList(_storageKey) ?? [];
+      List<String> updatedList = [];
+
+      for (String item in savedList) {
+        final map = json.decode(item);
+        map['isRead'] = true;
+        updatedList.add(json.encode(map));
+      }
+
+      await prefs.setStringList(_storageKey, updatedList);
+      await _updateUnreadCount();
+    } catch (e) {
+      debugPrint('Error marking notifications as read: $e');
+    }
+  }
+
+  // حذف جميع الإشعارات
+  Future<void> clearNotifications() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_storageKey);
+      await _updateUnreadCount();
+    } catch (e) {
+      debugPrint('Error clearing notifications: $e');
+    }
+  }
+
+  // التعامل مع الإشعار المستلم في Foreground
+  void _handleForegroundMessage(RemoteMessage message) {
+    String title = message.notification?.title ?? 'إشعار جديد';
+    String body = message.notification?.body ?? '';
+    String? deepLink = message.data['deepLink'];
+    String? category = message.data['category'];
+
+    _saveNotification(title, body, deepLink: deepLink, category: category);
+
+    // إظهار الإشعار المحلي
+    NotificationService().schedulePrayerNotification(
+      DateTime.now().millisecond,
+      title,
+      body,
+      DateTime.now().add(const Duration(seconds: 1)),
+    );
+  }
+
+  // التعامل مع النقر على الإشعار
   void _handleNotificationClick(RemoteMessage message) {
-    final title = message.notification?.title ?? 'تنبيه';
-    final body = message.notification?.body ?? '';
-    final deepLink = message.data['deep_link'] ?? message.data['route'];
-    final category = message.data['category'];
+    String title = message.notification?.title ?? 'إشعار جديد';
+    String body = message.notification?.body ?? '';
+    String? deepLink = message.data['deepLink'];
+    String? category = message.data['category'];
 
     _saveNotification(title, body, deepLink: deepLink, category: category);
   }
 }
-
