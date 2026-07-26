@@ -47,12 +47,13 @@ class NotificationService {
     if (androidImplementation != null) {
       await androidImplementation.createNotificationChannel(
         const AndroidNotificationChannel(
-          'prayer_channel_v2',
-          'Prayer Times',
-          description: 'Notifications for prayer times with Adhan',
+          'prayer_channel_v3',
+          'Prayer Times with Adhan',
+          description: 'Notifications for prayer times with full Adhan sound',
           importance: Importance.max,
           sound: RawResourceAndroidNotificationSound('adhan'),
           playSound: true,
+          audioAttributesUsage: AudioAttributesUsage.notificationRingtone,
         ),
       );
       await androidImplementation.createNotificationChannel(
@@ -105,17 +106,18 @@ class NotificationService {
         tz.TZDateTime.from(scheduledTime, tz.local),
         const NotificationDetails(
           android: AndroidNotificationDetails(
-            'prayer_channel_v2',
-            'Prayer Times',
-            channelDescription: 'Notifications for prayer times with Adhan',
+            'prayer_channel_v3',
+            'Prayer Times with Adhan',
+            channelDescription: 'Notifications for prayer times with full Adhan sound',
             importance: Importance.max,
-            priority: Priority.high,
+            priority: Priority.max,
             sound: RawResourceAndroidNotificationSound('adhan'),
+            audioAttributesUsage: AudioAttributesUsage.notificationRingtone,
+            visibility: NotificationVisibility.public,
           ),
-          // ✅ iOS: استخدام الصوت الافتراضي (default) بدل adhan.aiff غير الموجود
-          // لضمان وصول الإشعار حتى عند إغلاق التطبيق كلياً
+          // ✅ iOS: تشغيل صوت الأذان الأصلي حتى والتطبيق مغلق أو الشاشة مقفلة
           iOS: DarwinNotificationDetails(
-            sound: 'default',
+            sound: 'adhan.caf',
             presentAlert: true,
             presentBadge: true,
             presentSound: true,

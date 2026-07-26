@@ -78,6 +78,14 @@
 		<key>NSPhotoLibraryAddUsageDescription</key>
 		<string>يحتاج تطبيق أنا مسلم إلى حفظ الصور والبطاقات الإسلامية في المعرض.</string>
 
+		<!-- Background Modes for Background Audio & Notifications -->
+		<key>UIBackgroundModes</key>
+		<array>
+			<string>fetch</string>
+			<string>remote-notification</string>
+			<string>audio</string>
+		</array>
+
 		<!-- Notifications Permissions - Required for Prayer Alerts when App is Closed -->
 		<key>UIUserNotificationSettings</key>
 		<dict>
