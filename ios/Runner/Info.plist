@@ -53,11 +53,29 @@
 		</array>
 		<key>UIStatusBarHidden</key>
 		<false/>
+
+		<!-- Location Permissions -->
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string>يحتاج تطبيق أنا مسلم إلى تحديد موقعك لحساب مواقيت الصلاة واتجاه القبلة بدقة.</string>
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-		<string>يحتاج تطبيق أنا مسلم إلى تحديد موقعك لحساب مواقيت الصلاة واتجاه القبلة بدقة.</string>
+		<string>يحتاج تطبيق أنا مسلم إلى تحديد موقعك لحساب مواقيت الصلاة وتنبيهات الأذان بدقة.</string>
 		<key>NSLocationAlwaysUsageDescription</key>
-		<string>يحتاج تطبيق أنا مسلم إلى تحديد موقعك لحساب مواقيت الصلاة واتجاه القبلة بدقة.</string>
+		<string>يحتاج تطبيق أنا مسلم إلى تحديد موقعك لحساب مواقيت الصلاة وتنبيهات الأذان بدقة.</string>
+
+		<!-- Camera & Microphone Permissions -->
+		<key>NSCameraUsageDescription</key>
+		<string>يحتاج تطبيق أنا مسلم إلى الوصول للكاميرا لاستخدام ميزة الكاميرا التفاعلية في تحديد اتجاه القبلة (AR Qibla).</string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>يحتاج تطبيق أنا مسلم إلى استخدام الميكروفون عند تسجيل أو تشغيل الميزات الصوتية.</string>
+
+		<!-- Compass & Motion Sensors Permissions -->
+		<key>NSMotionUsageDescription</key>
+		<string>يحتاج تطبيق أنا مسلم إلى مستشعرات الحركة والبوصلة لتحديد اتجاه القبلة بدقة متناهية.</string>
+
+		<!-- Photo Library Permissions -->
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>يحتاج تطبيق أنا مسلم إلى الوصول للمعرض لمشاركتك الصور والبطاقات الإسلامية.</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>يحتاج تطبيق أنا مسلم إلى حفظ الصور والبطاقات الإسلامية في المعرض.</string>
 	</dict>
 </plist>
