@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- SEO Meta Tags -->
+    <title>القرآن الكريم كامل - قراءة واستماع وتفسير | تطبيق أنا مسلم</title>
+    <meta name="description"
+        content="حمل تطبيق أنا مسلم لقراءة القرآن الكريم كاملاً بخط واضح وتفسير ميسر. استمع لتلاوات عذبة لأكثر من 50 قارئاً. مميزات المصحف الإلكتروني، الوضع الليلي، وحفظ الختمات.">
+    <meta name="keywords"
+        content="القرآن الكريم, المصحف الإلكتروني, قراءة القرآن, تفسير القرآن, تلاوات خاشعة, القرآن الكريم mp3, ختمة القرآن, سورة البقرة, تطبيق قران, أنا مسلم">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://anamuslim.eu/quran.html">
+    <meta property="og:title" content="القرآن الكريم كامل - قراءة واستماع وتفسير">
+    <meta property="og:description"
+        content="تجربة قرآنية متكاملة في جيبك. اقرأ، استمع، وتدبر آيات الله مع تطبيق أنا مسلم.">
+    <meta property="og:image" content="https://anamuslim.eu/assets/share-quran.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://anamuslim.eu/quran.html">
+    <meta property="twitter:title" content="القرآن الكريم كامل - تطبيق أنا مسلم">
+    <meta property="twitter:description" content="مصحفك الشخصي رفيقك أينما كنت. تلاوات، تفاسير، وورد يومي.">
+    <meta property="twitter:image" content="https://anamuslim.eu/assets/share-quran.jpg">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://anamuslim.eu/quran.html">
+
+    <link rel="icon" type="image/jpeg" href="assets/icon.jpg">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "أنا مسلم - القرآن الكريم",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Android, iOS",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "description": "تطبيق شامل لقراءة واستماع وتفسير القرآن الكريم مع أدوات مساعدة للحفظ والختم.",
+      "featureList": "تلاوة صوتية, تفسير الآيات, الوضع الليلي, متابعة الختمة",
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "ratingCount": "100000"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "هل يعمل المصحف بدون إنترنت؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "نعم، يمكنك تحميل صفحات المصحف وملفات الصوت للاستماع والقراءة دون الحاجة لاتصال بالإنترنت."
+        }
+      }, {
+        "@type": "Question",
+        "name": "ما هي التفاسير المتوفرة؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "يوفر التطبيق التفسير الميسر، تفسير الطبري، وتفسير الجلالين، بالإضافة لترجمات معاني القرآن لأكثر من 20 لغة."
+        }
+      }]
+    }
+    </script>
+
+    <style>
+        .page-content {
+            padding-top: 140px;
+            padding-bottom: 80px;
+        }
+
+        .feature-box {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 30px;
+            height: 100%;
+            transition: all 0.3s ease;
+        }
+
+        .feature-box:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(15, 194, 192, 0.3);
+        }
+
+        .f-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            background: rgba(168, 85, 247, 0.1);
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .verse-card {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.15), rgba(15, 194, 192, 0.15));
+            border-radius: 24px;
+            padding: 40px;
+            text-align: center;
+            margin: 50px 0;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+        }
+
+        .quran-text-lg {
+            font-family: 'Amiri', serif;
+            font-size: 1.8rem;
+            line-height: 2;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .seo-content {
+            margin-top: 60px;
+            color: #d1d5db;
+        }
+
+        .seo-content h2,
+        .seo-content h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .seo-content p {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grain-overlay"></div>
+    <div class="islamic-pattern"></div>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+    <div class="aurora-container">
+        <div class="aurora-blob blob-3"></div>
+        <div class="aurora-blob blob-1"></div>
+    </div>
+
+    <header class="header glass">
+        <div class="container navbar">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-mosque"></i></div>
+                <a href="index.html" class="logo-text">
+                    <h1>أنا مسلم</h1><span>Ana Muslim</span>
+                </a>
+            </div>
+            <nav class="nav-links desktop-nav">
+                <a href="prayer-times.html">مواقيت الصلاة</a>
+                <a href="quran.html" class="active" style="color:var(--primary-color);">القرآن</a>
+                <a href="azkar.html">الأذكار</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="index.html#download" class="btn btn-primary btn-sm glow-effect desktop-only">تحميل التطبيق</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-content">
+        <div class="container">
+            <!-- Hero -->
+            <div class="glass content-card reveal text-center" style="padding: 60px 20px;">
+                <i class="fas fa-book-quran"
+                    style="font-size: 4.5rem; margin-bottom: 25px; background: linear-gradient(to right, var(--primary-color), var(--secondary-color)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                <h1 style="font-size: 3rem; margin-bottom: 20px;">القرآن الكريم</h1>
+                <p style="font-size: 1.3rem; max-width: 800px; margin: 0 auto; color: #cbd5e1;">
+                    نقدم لك أفضل تجربة لـ <strong>قراءة القرآن الكريم</strong> على الهواتف الذكية. تصفح المصحف
+                    الإلكتروني بسهولة، واستمع لأعذب التلاوات، وتدبر المعاني مع التفاسير المعتمدة.
+                </p>
+            </div>
+
+            <!-- Verse Quote -->
+            <div class="verse-card reveal">
+                <i class="fas fa-quote-right"
+                    style="font-size: 1.5rem; color: var(--accent-gold); opacity: 0.7; margin-bottom: 20px;"></i>
+                <p class="quran-text-lg">"إِنَّ الَّذِينَ يَتْلُونَ كِتَابَ اللَّهِ وَأَقَامُوا الصَّلَاةَ وَأَنفَقُوا
+                    مِمَّا رَزَقْنَاهُمْ سِرًّا وَعَلَانِيَةً يَرْجُونَ تِجَارَةً لَّن تَبُورَ"</p>
+                <span style="color: var(--primary-light); font-weight: bold;">سورة فاطر - آية 29</span>
+            </div>
+
+            <!-- Features Grid -->
+            <h2 style="text-align: center; margin-bottom: 30px; font-size: 2rem;">لماذا تختار مصحف "أنا مسلم"؟</h2>
+            <div class="grid-2">
+                <div class="feature-box reveal">
+                    <div class="f-icon"><i class="fas fa-eye"></i></div>
+                    <h3>مصحف إلكتروني بوضوح فائق</h3>
+                    <p>استمتع بـ <strong>قراءة القرآن</strong> مع خط النسخ الواضح والمريح للعين. يدعم التطبيق "الوضع
+                        الليلي" لقراءة خاشعة في قيام الليل دون إجهاد النظر.</p>
+                </div>
+
+                <div class="feature-box reveal" style="animation-delay: 0.1s;">
+                    <div class="f-icon"><i class="fas fa-headphones-alt"></i></div>
+                    <h3>مكتبة صوتية شاملة</h3>
+                    <p>استمع إلى <strong>القرآن الكريم mp3</strong> بأصوات أشهر القراء في العالم الإسلامي (مشاري
+                        العفاسي، عبد الباسط، السديس). ميزة التحميل للاستماع بدون إنترنت متوفرة.</p>
+                </div>
+
+                <div class="feature-box reveal" style="animation-delay: 0.2s;">
+                    <div class="f-icon"><i class="fas fa-book-reader"></i></div>
+                    <h3>تفسير القرآن وترجمته</h3>
+                    <p>فهم كتاب الله أصبح أسهل. ضغطة واحدة تظهر لك <strong>تفسير الآيات</strong> ومعاني الكلمات. متوفر
+                        التفسير الميسر والجلالين، وترجمات للإنجليزية والفرنسية.</p>
+                </div>
+
+                <div class="feature-box reveal" style="animation-delay: 0.3s;">
+                    <div class="f-icon"><i class="fas fa-star"></i></div>
+                    <h3>نظام الختمة والتحفيظ</h3>
+                    <p>ضع خطة لـ <strong>ختم القرآن</strong> في رمضان أو طوال العام. التطبيق يحدد لك الورد اليومي وينبهك
+                        لقراءته. كما يساعدك على الحفظ عبر تكرار الآيات.</p>
+                </div>
+            </div>
+
+            <!-- Expanded SEO Content -->
+            <div class="glass content-card reveal seo-content">
+                <h2 style="font-size: 1.8rem;">فضل تلاوة القرآن الكريم</h2>
+                <p>
+                    إن قراءة <strong>القرآن الكريم</strong> من أعظم العبادات التي يتقرب بها العبد إلى ربه. القرآن هو
+                    كلام الله المنزل على نبيه محمد صلى الله عليه وسلم، المتعبد بتلاوته. من قرأ حرفاً من كتاب الله فله به
+                    حسنة، والحسنة بعشر أمثالها. تطبيق "أنا مسلم" يسهل عليك هذه العبادة العظيمة بجعل المصحف في جيبك أينما
+                    كنت.
+                </p>
+
+                <h3 style="font-size: 1.5rem;">أدوات تساعدك على التدبر والحفظ</h3>
+                <p>
+                    لا يقتصر دورنا على عرض الصفحات فحسب، بل نهدف لربطك بالقرآن تدبراً وعملاً. من خلال ميزة البحث
+                    المتقدم، يمكنك الوصول لأي سورة أو آية أو حتى كلمة داخل المصحف في ثوانٍ. ميزة <strong>التلاوة
+                        الصوتية</strong> تساعدك على تصحيح نطقك وضبط أحكام التجويد من خلال الاستماع للمشايخ المتقنين.
+                </p>
+
+                <h3 style="font-size: 1.5rem;">الأسئلة الشائعة حول المصحف الإلكتروني</h3>
+                <div style="margin-top: 20px;">
+                    <strong style="color: var(--text-white); display:block; margin-bottom:5px;">هل يحتاج التطبيق لإنترنت
+                        دائم؟</strong>
+                    <p>لا، يمكنك تحميل المصحف كاملاً وملفات الصوت لتشغيلها في وضع عدم الاتصال (Offline Mode).</p>
+
+                    <strong style="color: var(--text-white); display:block; margin-bottom:5px;">هل يوجد تفسير باللغة
+                        الإنجليزية؟</strong>
+                    <p>نعم، نوفر ترجمة معاني القرآن للغة الإنجليزية والفرنسية والأوردو ولغات أخرى عديدة.</p>
+                </div>
+            </div>
+
+            <!-- Download CTA -->
+            <div class="glass content-card reveal text-center" style="margin-top: 60px; padding: 50px;">
+                <h2 style="margin-bottom: 20px;">حمل أفضل تطبيق قرآني الآن</h2>
+                <p style="margin-bottom: 30px; font-size: 1.1rem;">انضم لملايين المسلمين واجعل القرآن رفيق دربك.</p>
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                    <a href="index.html#download" class="btn btn-primary btn-lg glow-effect"><i
+                            class="fab fa-android"></i> تحميل للاندرويد</a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="privacy.html">سياسة الخصوصية</a>
+                <span class="separator">|</span>
+                <a href="mailto:mustafa963alhaj@gmail.com">تواصل معنا</a>
+                <span class="separator">|</span>
+                <a href="https://www.instagram.com/mustafa.alhaj.mustafa/?igsh=bmE4dzZwbzE3ZXln" target="_blank"
+                    rel="noopener noreferrer">
+                    <span>تابعنا على إنستغرام</span> <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+            <p class="copyright">© 2025 – تطبيق أنا مسلم. جميع الحقوق محفوظة. Mustafa Alhaj Mustafa</p>
+            <p class="disclaimer">هذا التطبيق لا يقدّم فتاوى شخصية، ويُنصح دائماً بالرجوع إلى أهل العلم.</p>
+        </div>
+    </footer>
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <a href="index.html" class="mobile-nav-item">
+            <i class="fas fa-home"></i>
+            <span>الرئيسية</span>
+        </a>
+        <a href="quran.html" class="mobile-nav-item active">
+            <i class="fas fa-book-quran"></i>
+            <span>القرآن</span>
+        </a>
+        <a href="prayer-times.html" class="mobile-nav-item">
+            <i class="fas fa-clock"></i>
+            <span>المواقيت</span>
+        </a>
+        <a href="azkar.html" class="mobile-nav-item">
+            <i class="fas fa-hands-praying"></i>
+            <span>الأذكار</span>
+        </a>
+    </nav>
+
+    <script src="pages.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- SEO Meta Tags -->
+    <title>مواقيت الصلاة والأذان واتجاه القبلة | تطبيق أنا مسلم</title>
+    <meta name="description"
+        content="تعرف على مواقيت الصلاة الدقيقة في مدينتك مع تطبيق أنا مسلم. تحديد اتجاه القبلة، تنبيهات الأذان، وإمساكية رمضان. حمل التطبيق الآن وحافظ على صلاتك.">
+    <meta name="keywords"
+        content="مواقيت الصلاة, أذان, اتجاه القبلة, وقت الفجر, صلاة الظهر, صلاة العصر, صلاة المغرب, صلاة العشاء, إمساكية رمضان, تطبيق صلاتي, أنا مسلم">
+    <meta name="robots" content="index, follow">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://anamuslim.eu/prayer-times.html">
+    <meta property="og:title" content="مواقيت الصلاة والأذان - دقة 100%">
+    <meta property="og:description"
+        content="لا تفوت صلاة بعد اليوم. مواقيت دقيقة، أذان بأجمل الأصوات، وبوصلة ذكية للقبلة.">
+    <meta property="og:image" content="https://anamuslim.eu/assets/share-prayer.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="مواقيت الصلاة والقبلة - أنا مسلم">
+    <meta property="twitter:description" content="حافظ على صلاتك مع أدق تطبيق للأذان ومواقيت الصلاة عالمياً.">
+    <meta property="twitter:image" content="https://anamuslim.eu/assets/share-prayer.jpg">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://anamuslim.eu/prayer-times.html">
+
+    <link rel="icon" type="image/jpeg" href="assets/icon.jpg">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "أنا مسلم - مواقيت الصلاة",
+      "applicationCategory": "LifestyleApplication",
+      "operatingSystem": "Android, iOS",
+      "description": "تطبيق دقيق لحساب مواقيت الصلاة وتحديد اتجاه القبلة باستخدام GPS والمستشعرات.",
+      "featureList": "أذان تلقائي, بوصلة القبلة, تقويم هجري, طرق حساب متعددة",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [{
+        "@type": "Question",
+        "name": "كيف يتم حساب مواقيت الصلاة في التطبيق؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "يعتمد التطبيق على موقعك الجغرافي (GPS) ويستخدم طرق حساب معتمدة عالمياً مثل أم القرى، رابطة العالم الإسلامي، وهيئة المساحة المصرية."
+        }
+      }, {
+        "@type": "Question",
+        "name": "هل تعمل القبلة بدون إنترنت؟",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "نعم، تعتمد البوصلة على مستشعرات الهاتف المغناطيسية لتحديد اتجاه الكعبة المشرفة دون الحاجة للإنترنت."
+        }
+      }]
+    }
+    </script>
+
+    <style>
+        .page-content {
+            padding-top: 140px;
+            padding-bottom: 80px;
+        }
+
+        .hero-banner {
+            background: linear-gradient(rgba(2, 6, 23, 0.7), rgba(2, 6, 23, 0.9)), url('assets/home.jpg');
+            background-size: cover;
+            background-position: center;
+            border-radius: 30px;
+            padding: 60px 20px;
+            text-align: center;
+            margin-bottom: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .prayer-card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: -30px;
+            /* Overlap effect */
+            position: relative;
+            z-index: 10;
+        }
+
+        .prayer-time-card {
+            background: rgba(30, 41, 59, 0.6);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .prayer-time-card:hover {
+            background: rgba(15, 194, 192, 0.1);
+            border-color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        .prayer-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--accent-gold);
+        }
+
+        .info-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-top: 80px;
+            align-items: center;
+        }
+
+        .info-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .info-visual {
+            flex: 1;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .compass-visual {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 5px solid var(--primary-color);
+            margin: 0 auto;
+            position: relative;
+            box-shadow: 0 0 30px var(--primary-glow);
+            animation: pulse-compass 3s infinite;
+        }
+
+        .compass-needle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 90px;
+            background: red;
+            transform-origin: bottom center;
+            transform: translate(-50%, -100%) rotate(45deg);
+        }
+
+        @keyframes pulse-compass {
+            0% {
+                box-shadow: 0 0 20px var(--primary-glow);
+            }
+
+            50% {
+                box-shadow: 0 0 50px var(--primary-glow);
+            }
+
+            100% {
+                box-shadow: 0 0 20px var(--primary-glow);
+            }
+        }
+
+        .seo-text {
+            color: #cbd5e1;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .seo-heading {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="grain-overlay"></div>
+    <div class="islamic-pattern"></div>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
+    <div class="aurora-container">
+        <div class="aurora-blob blob-1"></div>
+        <div class="aurora-blob blob-2"></div>
+    </div>
+
+    <header class="header glass">
+        <div class="container navbar">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-mosque"></i></div>
+                <a href="index.html" class="logo-text">
+                    <h1>أنا مسلم</h1><span>Ana Muslim</span>
+                </a>
+            </div>
+            <nav class="nav-links desktop-nav">
+                <a href="prayer-times.html" class="active" style="color:var(--primary-color);">مواقيت الصلاة</a>
+                <a href="quran.html">القرآن</a>
+                <a href="azkar.html">الأذكار</a>
+            </nav>
+            <div class="nav-actions">
+                <a href="index.html#download" class="btn btn-primary btn-sm glow-effect desktop-only">تحميل التطبيق</a>
+            </div>
+        </div>
+    </header>
+
+    <section class="page-content">
+        <div class="container">
+
+            <div class="hero-banner reveal">
+                <h1 style="font-size: 3rem; margin-bottom: 15px;">مواقيت الصلاة الدقيقة</h1>
+                <p style="font-size: 1.2rem; color: #e2e8f0;">"إِنَّ الصَّلَاةَ كَانَتْ عَلَى الْمُؤْمِنِينَ كِتَابًا
+                    مَوْقُوتًا" - حافظ على صلاتك في وقتها مع أدق تطبيق للأذان في العالم.</p>
+            </div>
+
+            <!-- Prayer Cards -->
+            <div class="prayer-card-container reveal">
+                <div class="prayer-time-card">
+                    <div class="prayer-icon"><i class="fas fa-sun"></i></div>
+                    <h3>الفجر</h3>
+                    <p style="font-size: 0.9rem; opacity: 0.7;">بداية يومك</p>
+                </div>
+                <div class="prayer-time-card">
+                    <div class="prayer-icon"><i class="fas fa-cloud-sun"></i></div>
+                    <h3>الظهر</h3>
+                    <p style="font-size: 0.9rem; opacity: 0.7;">راحة القلب</p>
+                </div>
+                <div class="prayer-time-card">
+                    <div class="prayer-icon"><i class="fas fa-cloud"></i></div>
+                    <h3>العصر</h3>
+                    <p style="font-size: 0.9rem; opacity: 0.7;">منتصف النهار</p>
+                </div>
+                <div class="prayer-time-card">
+                    <div class="prayer-icon"><i class="fas fa-moon"></i></div>
+                    <h3>المغرب</h3>
+                    <p style="font-size: 0.9rem; opacity: 0.7;">ذهاب الشمس</p>
+                </div>
+                <div class="prayer-time-card">
+                    <div class="prayer-icon"><i class="fas fa-star"></i></div>
+                    <h3>العشاء</h3>
+                    <p style="font-size: 0.9rem; opacity: 0.7;">ختام اليوم</p>
+                </div>
+            </div>
+
+            <!-- Qibla Section -->
+            <div class="info-section reveal">
+                <div class="info-text">
+                    <h2 class="seo-heading">تحديد اتجاه القبلة بدقة 100%</h2>
+                    <p class="seo-text">
+                        تعد خدمة <strong>تحديد قبلة الصلاة</strong> من أهم ميزات تطبيق "أنا مسلم". سواء كنت في سفر أو في
+                        مكان جديد، يمكنك الاعتماد على البوصلة الذكية لتحديد اتجاه الكعبة المشرفة في مكة المكرمة.
+                    </p>
+                    <p class="seo-text">
+                        نستخدم تقنيات دمج المستشعرات (Sensor Fusion) مع الـ GPS لضمان أن السهم يشير إلى
+                        <strong>القبلة</strong> بدقة متناهية، متجنبين التشويش المغناطيسي الذي قد يؤثر على البوصلات
+                        العادية.
+                    </p>
+                    <ul style="list-style: none; margin-left: 0; padding: 0; margin-top:20px;">
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check-circle"
+                                style="color: var(--primary-color);"></i> تعمل بدون إنترنت (Offline Mode)</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check-circle"
+                                style="color: var(--primary-color);"></i> معايرة سهلة لضمان الدقة</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check-circle"
+                                style="color: var(--primary-color);"></i> واجهة بصرية واضحة</li>
+                    </ul>
+                </div>
+                <div class="info-visual">
+                    <div class="compass-visual">
+                        <div class="compass-needle"></div>
+                        <i class="fas fa-kaaba"
+                            style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 1.5rem; color: #fff;"></i>
+                    </div>
+                    <p style="margin-top: 20px; opacity: 0.8;">واجهة بوصلة بسيطة ودقيقة</p>
+                </div>
+            </div>
+
+            <!-- Expanded Content: Calculation Methods -->
+            <div class="glass content-card reveal" style="margin-top: 60px; padding: 40px;">
+                <h3 class="seo-heading">كيف نحسب مواقيت الصلاة؟</h3>
+                <p class="seo-text">
+                    يختلف وقت الأذان حسب الموقع الجغرافي وزاوية الشمس. لتوفير <strong>مواقيت صلاة</strong> دقيقة لجميع
+                    المسلمين حول العالم، يدعم تطبيقنا جميع طرق الحساب المعتمدة فقهياً وفلكياً:
+                </p>
+                <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
+                    <span class="badge"
+                        style="background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px;">جامعة أم
+                        القرى (مكة)</span>
+                    <span class="badge"
+                        style="background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px;">رابطة العالم
+                        الإسلامي</span>
+                    <span class="badge"
+                        style="background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px;">الهيئة
+                        المصرية العامة للمساحة</span>
+                    <span class="badge"
+                        style="background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px;">رئاسة الشؤون
+                        الدينية التركية</span>
+                    <span class="badge"
+                        style="background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px;">جامعة العلوم
+                        الإسلامية بكراتشي</span>
+                </div>
+                <p class="seo-text">
+                    كما يمكنك تعديل المواقيت يدوياً أو اختيار المذهب الفقهي (شافعي، حنبلي، مالكي = العصر عند ظل المثل)
+                    أو (حنفي = العصر عند ظلي المثل).
+                </p>
+            </div>
+
+            <!-- Importance of Prayer -->
+            <div class="glass content-card reveal" style="margin-top: 40px; padding: 40px;">
+                <h3 class="seo-heading">أهمية الصلاة في وقتها</h3>
+                <p class="seo-text">
+                    الصلاة هي عماد الدين، وأول ما يحاسب عليه العبد يوم القيامة. تطبيق "أنا مسلم" صُمم ليكون المساعد
+                    الأمين الذي يذكرك بـ <strong>موعد الصلاة</strong> فور دخول الوقت، لتكون ممن قال الله فيهم
+                    "وَالَّذِينَ هُمْ عَلَىٰ صَلَوَاتِهِمْ يُحَافِظُونَ".
+                </p>
+                <p class="seo-text">
+                    احصل على تنبيهات الأذان بأصوات عذبة تأخذك من ضوضاء الحياة إلى سكينة العبادة.
+                </p>
+            </div>
+
+            <div style="text-align: center; margin-top: 60px;">
+                <a href="index.html#download" class="btn btn-primary btn-lg glow-effect">حمل التطبيق ولا تفوت صلاتك</a>
+            </div>
+
+        </div>
+    </section>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-links">
+                <a href="privacy.html">سياسة الخصوصية</a>
+                <span class="separator">|</span>
+                <a href="mailto:mustafa963alhaj@gmail.com">تواصل معنا</a>
+                <span class="separator">|</span>
+                <a href="https://www.instagram.com/mustafa.alhaj.mustafa/?igsh=bmE4dzZwbzE3ZXln" target="_blank"
+                    rel="noopener noreferrer">
+                    <span>تابعنا على إنستغرام</span> <i class="fab fa-instagram"></i>
+                </a>
+            </div>
+            <p class="copyright">© 2025 – تطبيق أنا مسلم. جميع الحقوق محفوظة. Mustafa Alhaj Mustafa</p>
+            <p class="disclaimer">هذا التطبيق لا يقدّم فتاوى شخصية، ويُنصح دائماً بالرجوع إلى أهل العلم.</p>
+        </div>
+    </footer>
+    <!-- Mobile Bottom Navigation -->
+    <nav class="mobile-bottom-nav">
+        <a href="index.html" class="mobile-nav-item">
+            <i class="fas fa-home"></i>
+            <span>الرئيسية</span>
+        </a>
+        <a href="quran.html" class="mobile-nav-item">
+            <i class="fas fa-book-quran"></i>
+            <span>القرآن</span>
+        </a>
+        <a href="prayer-times.html" class="mobile-nav-item active">
+            <i class="fas fa-clock"></i>
+            <span>المواقيت</span>
+        </a>
+        <a href="azkar.html" class="mobile-nav-item">
+            <i class="fas fa-hands-praying"></i>
+            <span>الأذكار</span>
+        </a>
+    </nav>
+
+    <script src="pages.js"></script>
+</body>
+
+</html>
